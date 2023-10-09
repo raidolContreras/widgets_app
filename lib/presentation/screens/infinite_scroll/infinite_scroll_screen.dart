@@ -122,7 +122,7 @@ class _InfiniteScrollScreenState extends State<InfiniteScrollScreen> {
         onPressed:() => context.pop(),
         // Ternario
         child: isLoading
-          ? FadeIn(child: CircularProgressIndicator())
+          ? FadeIn(child: const CircularProgressIndicator())
           : FadeIn(child: const Icon(Icons.arrow_back_ios_new_outlined)),
       ),
     );
