@@ -82,7 +82,7 @@ const appMenuItems = <MenuItem>[
     title: 'Selector de temas',
     subTitle: 'Cambio de colores',
     link: '/theme-changer',
-    icon: Icons.list_alt_rounded
+    icon: Icons.check_box_outlined
   ),
   
 ];
