@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import '/config/menu/menu_items.dart';
+import '/config/menu/menus.dart';
 
 class SideMenu extends StatefulWidget {
 
@@ -32,8 +32,6 @@ class _SideMenuState extends State<SideMenu> {
 
         setState(() {
           navDrawerIndex = value;
-          
-
         });
 
         final menuItem = appMenuItems[value];
@@ -48,7 +46,7 @@ class _SideMenuState extends State<SideMenu> {
           child: const Text('Main')
         ),
         ...appMenuItems
-          .sublist(0,3)
+          .sublist(0,1)
           .map((item) => NavigationDrawerDestination(
             icon: Icon(item.icon), 
             label: Text(item.title)
@@ -64,7 +62,7 @@ class _SideMenuState extends State<SideMenu> {
           child: Text('More options')
         ),
         ...appMenuItems
-          .sublist(3)
+          .sublist(1)
           .map((item) => NavigationDrawerDestination(
             icon: Icon(item.icon), 
             label: Text(item.title)
