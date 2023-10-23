@@ -14,10 +14,10 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: const Text('Flutter + Material 3'),
+        title: const Text('InLibrary'),
       ),
       body: const _HomeView(),
-      drawer: SideMenu(scaffoldKey: scaffoldKey),
+      endDrawer: SideMenu(scaffoldKey: scaffoldKey),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '/presentation/widgets/side_menu.dart';
 
 
 class ReglamentsScreen extends StatelessWidget {
@@ -7,11 +8,14 @@ class ReglamentsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         title: const Text('Reglamentos'),
       ),
+      endDrawer: SideMenu(scaffoldKey: scaffoldKey), // Utiliza endDrawer en lugar de drawer
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

@@ -19,7 +19,6 @@ class _SideMenuState extends State<SideMenu> {
 
   int navDrawerIndex = 0;
 
-
   @override
   Widget build(BuildContext context) {
 
@@ -43,7 +42,7 @@ class _SideMenuState extends State<SideMenu> {
       children: [
         Padding(
           padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 10),
-          child: const Text('Main')
+          child: const Text('Menú')
         ),
         ...appMenuItems
           .sublist(0,1)
@@ -59,7 +58,7 @@ class _SideMenuState extends State<SideMenu> {
         
         const Padding(
           padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
-          child: Text('More options')
+          child: Text('Configuraciones')
         ),
         ...appMenuItems
           .sublist(1)
