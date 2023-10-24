@@ -91,7 +91,6 @@ class _ViewReglaments extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                fontFamily: 'Poppins'
               ),
             )
           ),
@@ -104,22 +103,32 @@ class _ViewReglaments extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 30),
-                    child: DecoratedBox(
-                      decoration: decoration,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                                (cover[index] != null)
-                                  ?'https://app-fiscal.inscripcionesccm.online/assets/images/covers/${idReglament[index]}/${cover[index]}'
-                                  :'https://publications.iarc.fr/uploads/media/default/0001/02/thumb_1244_default_publication.jpeg', 
-                                    fit: BoxFit.fill),
+                    child: Card(
+                      child: Column(
+                        children: [
+                          DecoratedBox(
+                            decoration: decoration,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                      (cover[index] != null)
+                                        ?'https://app-fiscal.inscripcionesccm.online/assets/images/covers/${idReglament[index]}/${cover[index]}'
+                                        :'https://publications.iarc.fr/uploads/media/default/0001/02/thumb_1244_default_publication.jpeg', 
+                                          fit: BoxFit.fill),
+                            ),
+                          ),
+                          const Padding( padding: EdgeInsets.only(bottom: 30),),
+                          Center(
+                            child: Text('${reglament[index]}', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),),
+                          )
+                        ],
                       ),
                     ),
                   ),
                 );
               },
               itemCount: reglament.length,
-              itemWidth: MediaQuery.of(context).size.width * 0.9,
+              itemWidth: MediaQuery.of(context).size.width * 0.7,
               itemHeight: MediaQuery.of(context).size.height * 0.6,
               layout: SwiperLayout.TINDER,
             ),
