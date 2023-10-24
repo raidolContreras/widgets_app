@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '/presentation/widgets/side_menu.dart';
 import 'package:in_library/config/mysql/mysql.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:go_router/go_router.dart';
 
 class ReglamentsScreen extends StatefulWidget {
   static const name = 'reglaments_screen';
@@ -85,20 +86,24 @@ class _ViewReglaments extends StatelessWidget {
       body: Column(
         children: [
           const SizedBox(height: 40),
-          const SizedBox(height: 40,
-            child: Text(
-              'Selecciona un reglamento',
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            )
+          BounceInDown(
+            child: const SizedBox(height: 40,
+              child: Text(
+                'Selecciona un reglamento',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
+              )
+            ),
           ),
           Center(
             child: Swiper(
               itemBuilder: (BuildContext context, int index) {
                 return GestureDetector(
                   onTap: () {
+                  
+                    context.push('/Reglament/${idReglament[index]}'); 
                     
                   },
                   child: Padding(

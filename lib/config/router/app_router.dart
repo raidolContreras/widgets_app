@@ -24,6 +24,12 @@ final appRouter = GoRouter(
     ),
 
     GoRoute(
+      path: '/Reglament/:idReglament',
+      name: ReglamentScreen.name,
+      builder: (context, state) => const ReglamentScreen(),
+    ),
+
+    GoRoute(
       path: '/Login',
       name: LoginScreen.name,
       builder: (context, state) => const LoginScreen(),

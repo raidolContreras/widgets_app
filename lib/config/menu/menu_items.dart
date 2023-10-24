@@ -37,6 +37,13 @@ const appMenuItems = <MenuItem>[
     icon: Icons.settings_outlined
   ),
 
+  MenuItem(
+    title: 'Reglamento',
+    subTitle: '',
+    link: '/reglament/:idReglament',
+    icon: Icons.settings_outlined
+  ),
+
   // MenuItem(
   //   title: 'Botones',
   //   subTitle: 'Varios botones en flutter',
