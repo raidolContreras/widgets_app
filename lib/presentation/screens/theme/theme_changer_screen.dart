@@ -23,7 +23,7 @@ class ThemeChangerScreen extends ConsumerWidget {
             },
           )
         ],
-        title: const Text('Selector de Temas'),
+        title: const Center(child: Text('Selector de Temas')),
       ),
       body: const _ThemeChangerView(),
     );

@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import '/presentation/widgets/side_menu.dart';
 import 'package:in_library/config/mysql/mysql.dart';
@@ -62,10 +63,22 @@ class _ViewReglaments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    
+    final decoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black,
+          blurRadius: 10,
+          offset: Offset(0,10)
+        )
+      ]
+    );
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: const Text('Reglamentos'),
+        title: const Center(child: Text('Reglamentos')),
       ),
       endDrawer: SideMenu(scaffoldKey: scaffoldKey), // Utiliza endDrawer en lugar de drawer
 
@@ -73,31 +86,35 @@ class _ViewReglaments extends StatelessWidget {
         children: [
           const SizedBox(height: 40),
           const SizedBox(height: 40,
-            child: Text('Selecciona un reglamento', style: TextStyle(fontSize: 25),)
+            child: Text(
+              'Selecciona un reglamento',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins'
+              ),
+            )
           ),
           Center(
             child: Swiper(
               itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: Column(
-                    children: [
-                    const SizedBox(height: 20),
-                      AspectRatio(
-                        aspectRatio: 0.9,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: (cover[index] != null)
-                                  ?Image.network('https://app-fiscal.inscripcionesccm.online/assets/images/covers/${idReglament[index]}/${cover[index]}', 
-                                    fit: BoxFit.fill,
-                                  )
-                                  :Image.network('https://publications.iarc.fr/uploads/media/default/0001/02/thumb_1244_default_publication.jpeg', 
-                                    fit: BoxFit.contain,
-                                  ),
-                        )
+                return GestureDetector(
+                  onTap: () {
+                    
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 30),
+                    child: DecoratedBox(
+                      decoration: decoration,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                                (cover[index] != null)
+                                  ?'https://app-fiscal.inscripcionesccm.online/assets/images/covers/${idReglament[index]}/${cover[index]}'
+                                  :'https://publications.iarc.fr/uploads/media/default/0001/02/thumb_1244_default_publication.jpeg', 
+                                    fit: BoxFit.fill),
                       ),
-                      const SizedBox(height: 40,),
-                      Text('${reglament[index]}', style: const TextStyle(fontSize: 20),),
-                    ],
+                    ),
                   ),
                 );
               },

@@ -20,7 +20,7 @@ class AppTheme {
 
   AppTheme({
     this.selectedColor = 0,
-    this.isDarkmode = false
+    this.isDarkmode = true
   }): assert( selectedColor >= 0, 'Selected color must be greater then 0' ),
       assert( selectedColor < colorList.length, 
         'Selected color must be less or equal than ${ colorList.length - 1 }' );
@@ -31,7 +31,8 @@ class AppTheme {
     colorSchemeSeed: colorList[ selectedColor ],
     appBarTheme: const AppBarTheme(
       centerTitle: false
-    )
+    ),
+    fontFamily: 'Poppins'
   );
 
   AppTheme copyWith({
