@@ -1,7 +1,8 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import '/presentation/widgets/side_menu.dart';
 import 'package:in_library/config/mysql/mysql.dart';
+import 'package:in_library/models/statements_models.dart';
+import '/presentation/widgets/side_menu.dart';
 
 class ReglamentScreen extends StatefulWidget {
   static const name = 'reglament_screen';
@@ -16,38 +17,54 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
   var db = MySql();
   String nameReglament = '';
   String cover = '';
-  int idReglament = 0; // Agrega idReglament como variable de instancia
-  bool isLoading = true; // Agrega una variable para controlar el estado de carga
+  List<String> chapters = [];
+  int idReglament = 0;
+  bool isLoading = true;
+  ScrollController _scrollController = ScrollController();
+  bool _isLoadingMore = false;
 
   @override
   void initState() {
     super.initState();
-    // No llames a getReglament() aquí
-  }
-  @override
-  void dispose() {
-    super.dispose();
+
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+        
+      }
+    });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    // Llama a getReglament() aquí en su lugar
     getReglament();
+    getChapters();
   }
 
   void getReglament() {
     final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, String>;
-    idReglament = int.parse(arguments['idReglament']!); //Obtiene el ID
+    idReglament = int.parse(arguments['idReglament']!);
 
     db.getConnection().then((conn) {
-      String sql = "SELECT * FROM app_titles t LEFT JOIN app_covers ac ON t.idTitles = ac.Title_idTitles WHERE t.idTitles = ?";
-      conn.query(sql, [idReglament]).then((results) {
-        for(var row in results){
+      conn.query(StatementsModels.getReglament, [idReglament]).then((results) {
+        for (var row in results) {
           setState(() {
-            nameReglament = row[1].toString(); // Convierte a cadena
-            cover = row[6].toString(); // Convierte a cadena
-            isLoading = false; // Establece isLoading en false cuando los datos se han cargado
+            nameReglament = row[1].toString();
+            cover = row[6].toString();
+            isLoading = false;
+          });
+        }
+      });
+    });
+  }
+
+  void getChapters() {
+    db.getConnection().then((conn) {
+      conn.query(StatementsModels.getChapters, [idReglament]).then((results) {
+        for (var row in results) {
+          setState(() {
+            chapters.add(row[1].toString());
+            isLoading = false;
           });
         }
       });
@@ -56,29 +73,70 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final decoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(20),
+      boxShadow: const [
+        BoxShadow(
+          color: Colors.black,
+          blurRadius: 10,
+          offset: Offset(0, 10),
+        )
+      ],
+    );
+
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        title: Center(child: Text(nameReglament)), // Usa el nombre del reglamento en el título
+        title: Center(child: Text(nameReglament)),
       ),
-      endDrawer: SideMenu(scaffoldKey: scaffoldKey), // Utiliza endDrawer en lugar de drawer
-      body: isLoading 
-        ? const Center(child: CircularProgressIndicator()) // Muestra el indicador de carga si isLoading es true
-        : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 20),
-            child: FadeInDown(
+      endDrawer: SideMenu(scaffoldKey: scaffoldKey),
+      body: isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 20),
               child: Column(
                 children: [
-                  Image.network(
-                    (cover != '')
-                      ?'https://app-fiscal.inscripcionesccm.online/assets/images/covers/$idReglament/$cover'
-                      :'https://publications.iarc.fr/uploads/media/default/0001/02/thumb_1244_default_publication.jpeg',
+                  FadeInDown(
+                    child: DecoratedBox(
+                      decoration: decoration,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                          (cover != '')
+                              ? 'https://app-fiscal.inscripcionesccm.online/assets/images/covers/$idReglament/$cover'
+                              : 'https://publications.iarc.fr/uploads/media/default/0001/02/thumb_1244_default_publication.jpeg',
+                          fit: BoxFit.fill,
+                        ),
+                      ),
+                    ),
                   ),
-                  Center(child: Text(nameReglament, style: const TextStyle(fontSize: 23, fontWeight: FontWeight.bold),)),
+                  const SizedBox(height: 20,),
+                  FadeInUp(
+                    child: Center(
+                      child: Text(
+                        nameReglament,
+                        style: const TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      controller: _scrollController,
+                      itemCount: chapters.length + 1,
+                      itemBuilder: (BuildContext context, int index) {
+                        if (index == chapters.length) {
+                          if (_isLoadingMore) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                        } else {
+                          return Text(chapters[index]);
+                        }
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),
-          )
     );
   }
 }
