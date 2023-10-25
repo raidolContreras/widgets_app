@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:widgets_app/presentation/providers/theme_provider.dart';
+import '/presentation/providers/theme_provider.dart';
 
 class ThemeChangerScreen extends ConsumerWidget {
   static const name = 'theme_changer';
@@ -23,7 +23,7 @@ class ThemeChangerScreen extends ConsumerWidget {
             },
           )
         ],
-        title: const Text('Selector de Temas'),
+        title: const Center(child: Text('Selector de Temas')),
       ),
       body: const _ThemeChangerView(),
     );
@@ -45,7 +45,7 @@ class _ThemeChangerView extends ConsumerWidget {
         final color = colors[index];
         return RadioListTile(
           title: Text('Tema ${index + 1}', style: TextStyle(color: color),),
-          subtitle: Text('${color.value}'),
+          // subtitle: Text('${color.value}'),
           activeColor: color,
           value: index,
           groupValue: selectedColor,
