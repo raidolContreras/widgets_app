@@ -306,6 +306,19 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
                                         '${articlesChapters[articleChapterId]['nameArticle'].toString()}:',
                                         style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
                                       ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: paragraph.values
+                                            .where((paragraph) =>
+                                                paragraph['idArticle'] == articlesChapters[articleChapterId]['idArticle'])
+                                            .map((paragraph) => Text(
+                                                  paragraph['paragraph'].toString(),
+                                                  style: const TextStyle(
+                                                      fontSize: 16, fontWeight: FontWeight.normal),
+                                                  textAlign: TextAlign.justify,
+                                                ))
+                                            .toList(),
+                                        )
                                     ],
                                   ),
                                 ),
