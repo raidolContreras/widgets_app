@@ -20,6 +20,8 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
   Map chapters = {};
   Map sections = {};
   Map articlesSections = {};
+  Map articlesChapters = {};
+  Map paragraph = {};
   bool isLoading = true;
 
   @override
@@ -58,10 +60,11 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
                   : 'https://publications.iarc.fr/uploads/media/default/0001/02/thumb_1244_default_publication.jpeg',
             };
           });
+        }else {
+          setState(() {
+            isLoading = false; // Marca isLoading como falso solo si hay contenido
+          });
         }
-        setState(() {
-          isLoading = false; // Marca isLoading como falso solo si hay contenido
-        });
       });
     });
   }
@@ -73,13 +76,20 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
     db.getConnection().then((conn) {
       String chaptersSql = "SELECT * FROM app_chapter WHERE Title_idTitles = ?";
       conn.query(chaptersSql, [idReglament]).then((results) {
-        for (var row in results) {
+        if (results.isNotEmpty) {
+          for (var row in results) {
+            setState(() {
+              isLoading = true;
+              chapters[row[0]] = {
+                'idChapter': row[0],
+                'nameChapter': row[1],
+              };
+              getSections(row[0]);
+            });
+          }
+        }else {
           setState(() {
-            chapters[row[0]] = {
-              'idChapter': row[0],
-              'nameChapter': row[1],
-            };
-            getSections(row[0]);
+            isLoading = false; // Marca isLoading como falso solo si hay contenido
           });
         }
       });
@@ -90,14 +100,22 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
     db.getConnection().then((conn) {
       String sectionsSql = "SELECT * FROM app_sections WHERE Chapter_idChapters = ?";
       conn.query(sectionsSql, [idChapter]).then((results) {
-        for (var row in results) {
+        if (results.isNotEmpty) {
+          for (var row in results) {
+            setState(() {
+              isLoading = true;
+              sections[row[0]] = {
+                'idSection': row[0],
+                'nameSection': row[1], // Actualiza el índice si es diferente en tu base de datos
+                'idChapter': row[2], // Actualiza el índice si es diferente en tu base de datos
+              };
+              getArticlesSections(row[0]);
+              getArticlesChapters(row[0]);
+            });
+          }
+        }else {
           setState(() {
-            sections[row[0]] = {
-              'idSection': row[0],
-              'nameSection': row[1], // Actualiza el índice si es diferente en tu base de datos
-              'idChapter': row[2], // Actualiza el índice si es diferente en tu base de datos
-            };
-            getArticlesSections(row[0]);
+            isLoading = false; // Marca isLoading como falso solo si hay contenido
           });
         }
       });
@@ -111,13 +129,71 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
         if (results.isNotEmpty) {
           for (var row in results) {
             setState(() {
+              isLoading = true;
               articlesSections[row[0]] = {
                 'idArticle': row[0],
                 'nameArticle': row[1],
                 'idSection': row[2],
               };
+              getParagraph(row[0]);
             });
           }
+        }else {
+          setState(() {
+            isLoading = false; // Marca isLoading como falso solo si hay contenido
+          });
+        }
+      });
+    });
+  }
+
+  void getArticlesChapters(int idChapter) {
+    db.getConnection().then((conn) {
+      String articlesSql = "SELECT * FROM app_articles WHERE Section_idSections = 0 AND Chapter_idChapters = ?";
+      conn.query(articlesSql, [idChapter]).then((results) {
+        if (results.isNotEmpty) {
+          for (var row in results) {
+            setState(() {
+              isLoading = true;
+              articlesChapters[row[0]] = {
+                'idArticle': row[0],
+                'nameArticle': row[1],
+                'idChapter': row[3],
+              };
+              getParagraph(row[0]);
+            });
+          }
+        }else {
+          setState(() {
+            isLoading = false; // Marca isLoading como falso solo si hay contenido
+          });
+        }
+      });
+    });
+  }
+
+  void getParagraph(int idArticle) {
+    db.getConnection().then((conn) {
+      String paragraphSql = "SELECT * FROM app_paragraph WHERE articles_idArticles = ? ORDER BY position ASC";
+      conn.query(paragraphSql, [idArticle]).then((results) {
+        if (results.isNotEmpty) {
+          for (var row in results) {
+            setState(() {
+              isLoading = true;
+              paragraph[row[0]] = {
+                'idParagraph': row[0],
+                'paragraph': row[1],
+                'idArticle': row[3],
+              };
+            });
+          }
+          setState(() {
+            isLoading = false; // Marca isLoading como falso solo si hay contenido
+          });
+        }else {
+          setState(() {
+            isLoading = false; // Marca isLoading como falso solo si hay contenido
+          });
         }
       });
     });
@@ -137,112 +213,135 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
     );
 
     return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(
-        title: Center(
-            child: FadeIn(
-                duration: const Duration(milliseconds: 200),
-                child: Text(reglament['nombre'] ?? ''))),
+  key: scaffoldKey,
+  appBar: AppBar(
+    title: Center(
+      child: FadeIn(
+        duration: const Duration(milliseconds: 200),
+        child: Text(reglament['nombre'] ?? ''),
       ),
-      endDrawer: SideMenu(scaffoldKey: scaffoldKey),
-      body: isLoading
-          ? const Center(child: CircularProgressIndicator())
-          : ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 20),
-                  child: Column(
-                    children: [
-                      FadeInDown(
-                        duration: const Duration(seconds: 1),
-                        child: DecoratedBox(
-                          decoration: decoration,
-                          child: SizedBox(
-                            height: 200,
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                reglament['cover'],
-                                fit: BoxFit.fill,
-                              ),
-                            ),
+    ),
+  ),
+  endDrawer: SideMenu(scaffoldKey: scaffoldKey),
+  body: isLoading
+      ? const Center(child: CircularProgressIndicator())
+      : ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 20),
+              child: Column(
+                children: [
+                  FadeInDown(
+                    duration: const Duration(seconds: 1),
+                    child: DecoratedBox(
+                      decoration: decoration,
+                      child: SizedBox(
+                        height: 200,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            reglament['cover'],
+                            fit: BoxFit.fill,
                           ),
                         ),
                       ),
-                      const SizedBox(height: 20,),
-                      FadeInUp(
-                        child: Center(
-                          child: Text(
-                            reglament['nombre'],
-                            style: const TextStyle(
-                              fontSize: 23,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  FadeInUp(
+                    child: Center(
+                      child: Text(
+                        reglament['nombre'],
+                        style: const TextStyle(
+                          fontSize: 23,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 10,),
-                      FadeInUp(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: chapters.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final chapter = chapters[index + 1];
-                            return Padding(
-                              padding: const EdgeInsets.fromLTRB(10,0,0,0),
-                              child: Column(
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  for (var chapterId in chapters.keys) ...[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            chapters[chapterId]['nameChapter'].toString(),
+                            style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                          ),
+                          for (var sectionId in sections.keys
+                              .where((sectionId) => sections[sectionId]['idChapter'] == chapterId))
+                            ...[
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    chapter['nameChapter'].toString(),
-                                    style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                                    sections[sectionId]['nameSection'].toString(),
+                                    style: const TextStyle(fontSize: 19, fontWeight: FontWeight.normal),
                                   ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: sections.values
-                                        .where((section) => section['idChapter'] == chapter['idChapter'])
-                                        .map((section) {
-                                          return Padding(
-                                            padding: const EdgeInsets.fromLTRB(10,0,0,0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  section['nameSection'].toString(),
-                                                  style: const TextStyle(fontSize: 19, fontWeight: FontWeight.normal),
-                                                ),
-                                                const SizedBox(height: 5,),
-                                          
-                                                Padding(
-                                                  padding: const EdgeInsets.fromLTRB(10,0,0,0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: articlesSections.values
-                                                        .where((articleSection) => articleSection['idSection'] == section['idSection'])
-                                                        .map((articleSection) => Text(
-                                                          '${articleSection['nameArticle'].toString()}:',
-                                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-                                                        ))
-                                                        .toList(),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          );
-                                        })
-                                        .toList(),
-                                  ),
+                                  for (var articleSectionId in articlesSections.keys
+                                      .where((articleSectionId) => articlesSections[articleSectionId]['idSection'] == sectionId))
+                                    ...[
+                                      Column(
+                                        children: [
+                                          Text(
+                                            '${articlesSections[articleSectionId]['nameArticle'].toString()}:',
+                                            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: paragraph.values
+                                              .where((paragraph) =>
+                                                  paragraph['idArticle'] == articleSectionId)
+                                              .map((paragraph) => Text(
+                                                    paragraph['paragraph'].toString(),
+                                                    style: const TextStyle(
+                                                        fontSize: 16, fontWeight: FontWeight.normal),
+                                                    textAlign: TextAlign.justify,
+                                                  ))
+                                              .toList(),
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                 ],
                               ),
-                            );
-                          },
-                        )
-                      )
-                    ],
-                  ),
-                ),
-              ],
-            )
-    );
-  }
-}
+                            ],
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(28, 10, 28, 10),
+                            child: Divider(),
+                          ),
+                          // Agrega los artículos de los capítulos
+                          for (var articleChapterId in articlesChapters.keys
+                              .where((articleChapterId) => articlesChapters[articleChapterId]['idChapter'] == chapterId))
+                            ...[
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${articlesChapters[articleChapterId]['nameArticle'].toString()}:',
+                                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          const Padding(
+                            padding: EdgeInsets.fromLTRB(28, 10, 28, 10),
+                            child: Divider(),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
+);
+
+  }}
