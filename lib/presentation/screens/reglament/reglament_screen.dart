@@ -18,6 +18,7 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
   String cover = '';
   Map reglament = {};
   Map chapters = {};
+  Map sections = {};
   bool isLoading = true;
 
   @override
@@ -34,7 +35,7 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     getReglament();
-    getChapters(); // Llama a la función para cargar los capítulos
+    getChapters();
   }
 
   void getReglament() {
@@ -75,13 +76,31 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
               'idChapter': row[0],
               'nameChapter': row[1],
             };
+            getSections(row[0]);
           });
- 
         }
-        print('data $chapters');
       });
     });
   }
+
+  void getSections(int idChapter) {
+    db.getConnection().then((conn) {
+      String sectionsSql = "SELECT * FROM app_sections WHERE Chapter_idChapters = ?";
+      conn.query(sectionsSql, [idChapter]).then((results) {
+        for (var row in results) {
+          setState(() {
+            sections[row[0]] = {
+              'idSection': row[0],
+              'nameSection': row[1], // Actualiza el índice si es diferente en tu base de datos
+              'idChapter': row[2], // Actualiza el índice si es diferente en tu base de datos
+            };
+            // print(sections);
+          });
+        }
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -142,16 +161,36 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
                         ),
                       ),
                       const SizedBox(height: 10,),
-                      ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: chapters.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final chapter = chapters[index + 1];
-                          return Center(
-                            child: Text(chapter['nameChapter'].toString(), // Convierte a cadena de texto
-                            style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),),
-                          );
-                        },
+                      FadeInUp(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: chapters.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final chapter = chapters[index + 1];
+                            return Column(
+                              children: [
+                                Center(
+                                  child: Text(
+                                    chapter['nameChapter'].toString(),
+                                    style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Column(
+                                  children: sections.values
+                                      .where((section) => section['idChapter'] == chapter['idChapter'])
+                                      .map((section) => Padding(
+                                        padding: const EdgeInsets.only(left: 16.0), // Espacio a la izquierda
+                                        child: Text(
+                                          section['nameSection'].toString(),
+                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                                        ),
+                                      ))
+                                      .toList(),
+                                ),
+                              ],
+                            );
+                          },
+                        )
                       )
                     ],
                   ),
