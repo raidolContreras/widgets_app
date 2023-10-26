@@ -19,6 +19,7 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
   Map reglament = {};
   Map chapters = {};
   Map sections = {};
+  Map articlesSections = {};
   bool isLoading = true;
 
   @override
@@ -56,9 +57,11 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
                   ? 'https://app-fiscal.inscripcionesccm.online/assets/images/covers/$idReglament/$cover'
                   : 'https://publications.iarc.fr/uploads/media/default/0001/02/thumb_1244_default_publication.jpeg',
             };
-            isLoading = false;
           });
         }
+        setState(() {
+          isLoading = false; // Marca isLoading como falso solo si hay contenido
+        });
       });
     });
   }
@@ -94,13 +97,31 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
               'nameSection': row[1], // Actualiza el índice si es diferente en tu base de datos
               'idChapter': row[2], // Actualiza el índice si es diferente en tu base de datos
             };
-            // print(sections);
+            getArticlesSections(row[0]);
           });
         }
       });
     });
   }
 
+  void getArticlesSections(int idSection) {
+    db.getConnection().then((conn) {
+      String articlesSql = "SELECT * FROM app_articles WHERE Section_idSections = ?";
+      conn.query(articlesSql, [idSection]).then((results) {
+        if (results.isNotEmpty) {
+          for (var row in results) {
+            setState(() {
+              articlesSections[row[0]] = {
+                'idArticle': row[0],
+                'nameArticle': row[1],
+                'idSection': row[2],
+              };
+            });
+          }
+        }
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -167,27 +188,52 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
                           itemCount: chapters.length,
                           itemBuilder: (BuildContext context, int index) {
                             final chapter = chapters[index + 1];
-                            return Column(
-                              children: [
-                                Center(
-                                  child: Text(
+                            return Padding(
+                              padding: const EdgeInsets.fromLTRB(10,0,0,0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
                                     chapter['nameChapter'].toString(),
                                     style: const TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                                   ),
-                                ),
-                                Column(
-                                  children: sections.values
-                                      .where((section) => section['idChapter'] == chapter['idChapter'])
-                                      .map((section) => Padding(
-                                        padding: const EdgeInsets.only(left: 16.0), // Espacio a la izquierda
-                                        child: Text(
-                                          section['nameSection'].toString(),
-                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
-                                        ),
-                                      ))
-                                      .toList(),
-                                ),
-                              ],
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: sections.values
+                                        .where((section) => section['idChapter'] == chapter['idChapter'])
+                                        .map((section) {
+                                          return Padding(
+                                            padding: const EdgeInsets.fromLTRB(10,0,0,0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  section['nameSection'].toString(),
+                                                  style: const TextStyle(fontSize: 19, fontWeight: FontWeight.normal),
+                                                ),
+                                                const SizedBox(height: 5,),
+                                          
+                                                Padding(
+                                                  padding: const EdgeInsets.fromLTRB(10,0,0,0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: articlesSections.values
+                                                        .where((articleSection) => articleSection['idSection'] == section['idSection'])
+                                                        .map((articleSection) => Text(
+                                                          '${articleSection['nameArticle'].toString()}:',
+                                                          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.normal),
+                                                        ))
+                                                        .toList(),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        })
+                                        .toList(),
+                                  ),
+                                ],
+                              ),
                             );
                           },
                         )
@@ -197,7 +243,6 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
                 ),
               ],
             )
-
     );
   }
 }
