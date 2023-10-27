@@ -13,9 +13,13 @@ class HomeScreen extends StatelessWidget {
     final scaffoldKey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: scaffoldKey,
-      appBar: AppBar(
-        title: const Center(child: Text('InLibrary')),
+      appBar: PreferredSize(
+      preferredSize: const Size.fromHeight(kToolbarHeight),
+      child: AppBar(
+        title: const Text('InLibrary'),
+        centerTitle: true,
       ),
+    ),
       body: const _HomeView(),
       endDrawer: SideMenu(scaffoldKey: scaffoldKey),
     );

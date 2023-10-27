@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 const colorList = <Color>[
   Colors.blue,
@@ -14,33 +15,50 @@ const colorList = <Color>[
 ];
 
 class AppTheme {
-
   final int selectedColor;
   final bool isDarkmode;
+  final bool allowOrientationChange;
 
   AppTheme({
-    this.selectedColor = 3,
-    this.isDarkmode = true
-  }): assert( selectedColor >= 0, 'Selected color must be greater then 0' ),
-      assert( selectedColor < colorList.length, 
-        'Selected color must be less or equal than ${ colorList.length - 1 }' );
+    this.selectedColor = 0,
+    this.isDarkmode = true,
+    this.allowOrientationChange = false,
+  }) : assert(selectedColor >= 0, 'Selected color must be greater than or equal to 0'),
+       assert(selectedColor < colorList.length, 'Selected color must be less than ${colorList.length}');
+
+  void applySystemSettings() {
+    if (!allowOrientationChange) {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+      ]);
+    } else {
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.landscapeRight,
+      ]);
+    }
+  }
 
   ThemeData getTheme() => ThemeData(
     useMaterial3: true,
-    brightness:isDarkmode ? Brightness.dark : Brightness.light,
-    colorSchemeSeed: colorList[ selectedColor ],
+    brightness: isDarkmode ? Brightness.dark : Brightness.light,
+    colorSchemeSeed: colorList[selectedColor],
     appBarTheme: const AppBarTheme(
-      centerTitle: false
+      centerTitle: false,
     ),
-    fontFamily: 'Poppins'
+    fontFamily: 'Poppins',
   );
 
   AppTheme copyWith({
     int? selectedColor,
-    bool? isDarkmode
-  }) => AppTheme(
-    selectedColor: selectedColor ?? this.selectedColor,
-    isDarkmode: isDarkmode ?? this.isDarkmode
-  );
-
+    bool? isDarkmode,
+    bool? allowOrientationChange = false,
+  }) {
+    return AppTheme(
+      selectedColor: selectedColor ?? this.selectedColor,
+      isDarkmode: isDarkmode ?? this.isDarkmode,
+      allowOrientationChange: allowOrientationChange ?? this.allowOrientationChange,
+    );
+  }
 }

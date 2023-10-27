@@ -5,6 +5,14 @@ import 'config/theme/app_theme.dart';
 import 'presentation/providers/theme_provider.dart';
 
 void main() {
+  AppTheme appTheme = AppTheme(
+    selectedColor: 0,
+    isDarkmode: true,
+    allowOrientationChange: false, // Esto evitará el cambio a orientación horizontal
+  );
+  
+  appTheme.applySystemSettings(); // Aplica la configuración de orientación
+
   runApp(
     const ProviderScope(
       child: MainApp(),

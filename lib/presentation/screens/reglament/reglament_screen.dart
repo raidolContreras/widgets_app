@@ -42,7 +42,7 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
     idReglament = int.parse(arguments['idReglament']!);
 
     final conn = await db.getConnection();
-    final titles = "SELECT * FROM app_titles t LEFT JOIN app_covers ac ON t.idTitles = ac.Title_idTitles WHERE t.idTitles = ?";
+    const titles = "SELECT * FROM app_titles t LEFT JOIN app_covers ac ON t.idTitles = ac.Title_idTitles WHERE t.idTitles = ?";
     final results = await conn.query(titles, [idReglament]);
 
     if (results.isNotEmpty) {
@@ -70,7 +70,7 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
     idReglament = int.parse(arguments['idReglament']!);
 
     final conn = await db.getConnection();
-    final chaptersSql = "SELECT * FROM app_chapter WHERE Title_idTitles = ?";
+    const chaptersSql = "SELECT * FROM app_chapter WHERE Title_idTitles = ?";
     final results = await conn.query(chaptersSql, [idReglament]);
 
     if (results.isNotEmpty) {
@@ -92,7 +92,7 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
 
   void getSections(int idChapter) async {
     final conn = await db.getConnection();
-    final sectionsSql = "SELECT * FROM app_sections WHERE Chapter_idChapters = ?";
+    const sectionsSql = "SELECT * FROM app_sections WHERE Chapter_idChapters = ?";
     final results = await conn.query(sectionsSql, [idChapter]);
 
     if (results.isNotEmpty) {
@@ -116,7 +116,7 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
 
   void getArticlesSections(int idSection) async {
     final conn = await db.getConnection();
-    final articlesSql = "SELECT * FROM app_articles WHERE Section_idSections = ?";
+    const articlesSql = "SELECT * FROM app_articles WHERE Section_idSections = ?";
     final results = await conn.query(articlesSql, [idSection]);
 
     if (results.isNotEmpty) {
@@ -139,7 +139,7 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
 
   void getArticlesChapters(int idChapter) async {
     final conn = await db.getConnection();
-    final articlesSql = "SELECT * FROM app_articles WHERE Section_idSections = 0 AND Chapter_idChapters = ?";
+    const articlesSql = "SELECT * FROM app_articles WHERE Section_idSections = 0 AND Chapter_idChapters = ?";
     final results = await conn.query(articlesSql, [idChapter]);
 
     if (results.isNotEmpty) {
@@ -162,7 +162,7 @@ class _ReglamentScreenState extends State<ReglamentScreen> {
 
   void getParagraph(int idArticle) async {
     final conn = await db.getConnection();
-    final paragraphSql = "SELECT * FROM app_paragraph WHERE articles_idArticles = ? ORDER BY position ASC";
+    const paragraphSql = "SELECT * FROM app_paragraph WHERE articles_idArticles = ? ORDER BY position ASC";
     final results = await conn.query(paragraphSql, [idArticle]);
 
     if (results.isNotEmpty) {
