@@ -5,3 +5,4 @@ export '/presentation/screens/home/home_screen.dart';
 export '/presentation/screens/reglaments/reglaments_screen.dart';
 export '/presentation/screens/reglament/reglament_screen.dart';
 export '/presentation/screens/login/login_screen.dart';
+export '/presentation/screens/register/register_screen.dart';

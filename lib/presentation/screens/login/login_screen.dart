@@ -1,21 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const name = 'login_screen';
 
   const LoginScreen({super.key});
 
   @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool rememberMe = false;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
+  void handleLogin() {
+    if (emailController.text.isEmpty || passwordController.text.isEmpty) {
+      // Si alguno de los campos está vacío, muestra un mensaje de error
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Los campos de correo y contraseña no pueden estar vacíos.'),
+        ),
+      );
+    } else {
+      // Agregar la lógica de inicio de sesión aquí
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: PreferredSize(
-      preferredSize: const Size.fromHeight(kToolbarHeight),
-      child: AppBar(
-        title: const Text('Iniciar Sesión'),
-        centerTitle: true,
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: AppBar(
+          title: const Text('Iniciar Sesión'),
+          centerTitle: true,
+        ),
       ),
-    ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 40),
@@ -29,29 +53,45 @@ class LoginScreen extends StatelessWidget {
                 height: 150,
               ),
               const SizedBox(height: 32),
-              // Campos de texto
-              const TextField(
-                decoration: InputDecoration(
+              // Campo de texto para el correo electrónico
+              TextField(
+                controller: emailController,
+                decoration: const InputDecoration(
                   labelText: 'Correo Electrónico',
                   prefixIcon: Icon(Icons.email),
                 ),
               ),
               const SizedBox(height: 16),
-              const TextField(
+              // Campo de texto para la contraseña
+              TextField(
+                controller: passwordController,
                 obscureText: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Contraseña',
                   prefixIcon: Icon(Icons.lock),
                 ),
               ),
-              const SizedBox(height: 24),
+              const SizedBox(height: 16),
+              // Casilla de "Recuérdame"
+              Row(
+                children: [
+                  Checkbox(
+                    value: rememberMe,
+                    onChanged: (value) {
+                      setState(() {
+                        rememberMe = value!;
+                      });
+                    },
+                  ),
+                  const Text('Recuérdame'),
+                ],
+              ),
+              const SizedBox(height: 16),
               ElevatedButton(
-                onPressed: () {
-                  // Agregar la lógica de inicio de sesión aquí
-                },
+                onPressed: handleLogin,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: colors.onPrimary, // Color de fondo del botón
-                  foregroundColor: Colors.white,
+                  backgroundColor: colors.primary, // Color de fondo del botón
+                  foregroundColor: colors.onPrimary,
                   minimumSize: const Size(200, 50), // Tamaño del botón
                 ),
                 child: const Text(
@@ -88,8 +128,8 @@ class LoginScreen extends StatelessWidget {
                       // Agregar la lógica de inicio de sesión con Facebook aquí
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: colors.onPrimary, // Color de fondo del botón
-                      foregroundColor: Colors.white, // Color del icono
+                      backgroundColor: colors.primary, // Color de fondo del botón
+                      foregroundColor: colors.onPrimary, // Color del icono
                       minimumSize: const Size(140, 50), // Tamaño del botón
                     ),
                     icon: const Icon(Icons.facebook),
@@ -100,7 +140,7 @@ class LoginScreen extends StatelessWidget {
               const SizedBox(height: 32),
               TextButton(
                 onPressed: () {
-                  // Agregar la lógica para navegar a la pantalla de registro
+                  context.push('/Register');
                 },
                 child: const Text('¿No tienes una cuenta? Regístrate'),
               ),
