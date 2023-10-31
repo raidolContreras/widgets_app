@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:in_library/presentation/widgets/widgets.dart';
 import '/config/menu/menu_items.dart';
 import '/presentation/widgets/side_menu.dart';
 
@@ -22,6 +23,7 @@ class HomeScreen extends StatelessWidget {
     ),
       body: const _HomeView(),
       endDrawer: SideMenu(scaffoldKey: scaffoldKey),
+      bottomNavigationBar: const CustomBottonNavigationBar(),
     );
   }
 }
