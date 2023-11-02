@@ -37,9 +37,19 @@ class ReglamentsScreenState extends ConsumerState<ReglamentsScreen> {
         centerTitle: true,
       ),
     ),
-      body: Column(
-        children: [
-          TitlesSlideshow(titles: allTitles)
+      body: CustomScrollView(
+        slivers: [
+          SliverList(delegate: SliverChildBuilderDelegate(
+            (context, index) {
+              return 
+                Column(
+                  children: [
+                    TitlesSlideshow(titles: allTitles)
+                  ],
+                );
+            },
+            childCount: 1
+          ))
         ],
       ),
       bottomNavigationBar: const CustomBottonNavigationBar(),
