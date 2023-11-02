@@ -13,7 +13,7 @@ class RegisterUserdbDatasource extends RegisterUserDatasource{
   @override
   Future<RegisterUser> getRegisterUser(String nameUser, String emailUser, String passwordUser) async {
     
-    final response = await dio.get('?register=1&name=$nameUser&email==$emailUser&password==$passwordUser');
+    final response = await dio.get('?register=1&name=$nameUser&email=$emailUser&password=$passwordUser');
     if(response.statusCode != 200) throw Exception('Error al registrar, intente de nuevo');
 
     final registerUserDB = RegisterUserDb.fromJson(response.data);
