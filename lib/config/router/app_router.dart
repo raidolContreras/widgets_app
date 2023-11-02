@@ -41,5 +41,17 @@ final appRouter = GoRouter(
       builder: (context, state) => const RegisterScreen(),
     ),
 
+    GoRoute(
+      path: '/SendRegister/:nameUser/:emailUser/:passwordUser',
+      name: SendRegisterScreen.name,
+      builder: (context, state) {
+
+        final nameUser = state.pathParameters['nameUser'] ?? 'sin-nombre';
+        final emailUser = state.pathParameters['emailUser'] ?? 'sin-email';
+        final passwordUser = state.pathParameters['passwordUser'] ?? 'sin-password';
+
+        return  SendRegisterScreen(nameUser: nameUser, emailUser: emailUser, passwordUser: passwordUser,);
+      },
+    ),
   ],
 );

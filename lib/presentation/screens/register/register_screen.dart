@@ -101,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _isButtonEnabled ? () {
-                  context.push('/SendRegister/${nameController.text}/${emailController.text}/${passwordController.text}');
+                  context.go('/SendRegister/${nameController.text}/${emailController.text}/${passwordController.text}');
                 } : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colors.primary, // Color de fondo del botón
