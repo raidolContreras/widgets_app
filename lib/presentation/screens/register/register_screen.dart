@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const name = 'register_screen';
@@ -100,7 +101,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: _isButtonEnabled ? () {
-                  // Agregar la lógica de registro aquí
+                  context.push('/SendRegister/${nameController.text}/${emailController.text}/${passwordController.text}');
                 } : null,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colors.primary, // Color de fondo del botón
@@ -117,7 +118,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               const SizedBox(height: 24),
               TextButton(
                 onPressed: () {
-                  // Agregar la lógica para volver a la pantalla de inicio de sesión
                   Navigator.pop(context);
                 },
                 child: const Text('¿Ya tienes una cuenta? Iniciar Sesión'),

@@ -40,5 +40,6 @@ final appRouter = GoRouter(
       name: RegisterScreen.name,
       builder: (context, state) => const RegisterScreen(),
     ),
+
   ],
 );
