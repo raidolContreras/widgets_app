@@ -1,28 +1,43 @@
-import 'package:in_library/infrastructure/models/registers/login_user_result.dart';
-
 class SelectUserDb {
-    final LoginUserResult result;
+    final int idUser;
+    final String firstname;
+    final String lastname;
+    final String birthday;
+    final String email;
+    final String phone;
+    final DateTime creationDate;
+    final String message;
 
     SelectUserDb({
-        required this.result,
+        required this.idUser,
+        required this.firstname,
+        required this.lastname,
+        required this.birthday,
+        required this.email,
+        required this.phone,
+        required this.creationDate,
+        required this.message,
     });
 
-    factory SelectUserDb.fromJson(Map<String, dynamic> json) {
-        return SelectUserDb(
-            result: LoginUserResult(
-                idUser: json["result"]["idUser"],
-                firstname: json["result"]["firstname"],
-                lastname: json["result"]["lastname"],
-                birthday: json["result"]["birthday"],
-                email: json["result"]["email"],
-                phone: json["result"]["phone"],
-                creationDate: DateTime.parse(json["result"]["creationDate"]),
-                message: json["result"]["message"],
-            ),
-        );
-    }
+    factory SelectUserDb.fromJson(Map<String, dynamic> json) => SelectUserDb(
+        idUser: json["idUser"],
+        firstname: json["firstname"],
+        lastname: json["lastname"],
+        birthday: json["birthday"],
+        email: json["email"],
+        phone: json["phone"],
+        creationDate: DateTime.parse(json["creationDate"]),
+        message: json["message"],
+    );
 
     Map<String, dynamic> toJson() => {
-        "result": result.toJson(),
+        "idUser": idUser,
+        "firstname": firstname,
+        "lastname": lastname,
+        "birthday": birthday,
+        "email": email,
+        "phone": phone,
+        "creationDate": creationDate.toIso8601String(),
+        "message": message,
     };
 }

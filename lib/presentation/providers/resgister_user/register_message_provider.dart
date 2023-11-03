@@ -3,10 +3,8 @@ import 'package:in_library/domain/entities/register_user.dart';
 import 'package:in_library/presentation/providers/resgister_user/register_user_repository_impl.dart';
 
 final registerMessageProvider = StateNotifierProvider<RegisterMapNotifier, Map<String, RegisterUser>>((ref) {
-
-  final registerUserRepository = ref.watch(registerUserRepositoryProvider);
-
-  return RegisterMapNotifier(getMessage: registerUserRepository.getRegisterUser);
+  final registerUserRepository = ref.watch(registerUserRepositoryProvider).getRegisterUser;
+  return RegisterMapNotifier(getMessage: registerUserRepository);
 });
 
 typedef GetMessageCallback = Future<RegisterUser>Function(
