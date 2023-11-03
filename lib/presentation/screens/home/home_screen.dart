@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
     ),
       body: const _HomeView(),
       endDrawer: SideMenu(scaffoldKey: scaffoldKey),
-      bottomNavigationBar: const CustomBottonNavigationBar(),
+      bottomNavigationBar: const CustomBottonNavigationBar( currentIndex: 0),
     );
   }
 }

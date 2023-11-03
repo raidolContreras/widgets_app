@@ -52,7 +52,7 @@ class ReglamentsScreenState extends ConsumerState<ReglamentsScreen> {
           ))
         ],
       ),
-      bottomNavigationBar: const CustomBottonNavigationBar(),
+      bottomNavigationBar: const CustomBottonNavigationBar( currentIndex: 0 ),
       endDrawer: SideMenu(scaffoldKey: scaffoldKey),
     );
   }
