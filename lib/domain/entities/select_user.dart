@@ -1,4 +1,11 @@
+import 'package:isar/isar.dart';
+
+part 'select_user.g.dart';
+
+@collection
 class SelectUser {
+
+  Id? isarId;
   
   final int idUser;
   final String firstname;
