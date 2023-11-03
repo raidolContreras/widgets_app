@@ -7,4 +7,6 @@ abstract class LocalStorageDatasource{
 
   Future<bool> islogged(int userId);
 
+  Future<SelectUser> loadUserData({offset = 0});
+
 }

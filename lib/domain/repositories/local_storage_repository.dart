@@ -6,5 +6,7 @@ abstract class LocalStorageRepository{
   Future<void> toogleLogin(SelectUser user);
 
   Future<bool> islogged(int userId);
+  
+  Future<SelectUser> loadUserData({offset = 0});
 
 }
