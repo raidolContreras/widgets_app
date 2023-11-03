@@ -5,5 +5,6 @@ export 'home/home_screen.dart';
 export 'reglaments/reglaments_screen.dart';
 export 'reglament/reglament_screen.dart';
 export 'login/login_screen.dart';
+export 'login/responce_login_screen.dart';
 export 'register/register_screen.dart';
 export 'register/send_register_screen.dart';

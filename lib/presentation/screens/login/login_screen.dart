@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       );
     } else {
-      // Agregar la lógica de inicio de sesión aquí
+      context.go('/ResponceLogin/${emailController.text}/${passwordController.text}');
     }
   }
 

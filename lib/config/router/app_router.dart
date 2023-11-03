@@ -54,5 +54,17 @@ final appRouter = GoRouter(
         return  SendRegisterScreen(nameUser: nameUser, emailUser: emailUser, passwordUser: passwordUser,);
       },
     ),
+
+    GoRoute(
+      path: '/ResponceLogin/:emailUser/:passwordUser',
+      name: ResponceLoginScreen.name,
+      builder: (context, state) {
+
+        final emailUser = state.pathParameters['emailUser'] ?? 'sin-email';
+        final passwordUser = state.pathParameters['passwordUser'] ?? 'sin-password';
+
+        return  ResponceLoginScreen(emailUser: emailUser, passwordUser: passwordUser,);
+      },
+    ),
   ],
 );
