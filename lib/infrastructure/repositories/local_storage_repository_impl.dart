@@ -18,7 +18,7 @@ class LocalStorageRepositoryImpl extends LocalStorageRepository {
   }
   
   @override
-  Future<SelectUser> loadUserData({offset = 0}) {
-    return datasource.loadUserData(offset: offset);
+  Future<List<SelectUser>> loadUserData({offset = 0, limit = 1}) {
+    return datasource.loadUserData(offset: offset, limit: limit);
   }
 }

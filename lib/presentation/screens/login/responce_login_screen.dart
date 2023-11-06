@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:in_library/domain/entities/select_user.dart';
 import 'package:in_library/infrastructure/datasources/login_userdb.datasource.dart';
+import 'package:in_library/presentation/providers/login_user/logged_user/logged_user_provider.dart';
 
 class ResponceLoginScreen extends ConsumerStatefulWidget {
   static const name = 'responce_login_screen';
@@ -34,16 +36,20 @@ class _ResponceLoginScreenState extends ConsumerState<ResponceLoginScreen> {
   Future<void> _loginUser() async {
     final loginUserdbDatasource = LoginUserdbDatasource();
     loginUser = await loginUserdbDatasource.loginUser(emailUser: widget.emailUser, passwordUser: widget.passwordUser);
-
+    
     // Mostrar el indicador de carga durante 5 segundos
     setState(() {
       isLoading = true;
     });
+
     await Future.delayed(const Duration(seconds: 1));
     
     // Ocultar el indicador de carga y mostrar el mensaje
     setState(() {
       isLoading = false;
+      if (loginUser.message == 'Inicio exitoso'){
+        ref.watch(loggedUserRepositoryProvider).toogleLogin(loginUser);
+      }
     });
   }
 
@@ -66,7 +72,13 @@ class _ResponceLoginScreenState extends ConsumerState<ResponceLoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(loginUser.message)
+              loginUser.message == 'Inicio exitoso'
+                ? Text(loginUser.message)
+                : Text(loginUser.message, style: const TextStyle(color: Colors.red, fontSize: 20),),
+              
+              TextButton.icon(onPressed: () {
+                context.push('/');
+              }, icon: const Icon(Icons.arrow_back_ios_new_outlined), label: const Text('Volver al inicio'))
             ],
           ),
         ),
