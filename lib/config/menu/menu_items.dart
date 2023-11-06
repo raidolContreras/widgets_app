@@ -24,10 +24,10 @@ const appMenuItems = <MenuItem>[
   ),
 
   MenuItem(
-    title: 'Configuraciones',
+    title: 'Temas',
     subTitle: 'Cambio de tema y modo de la',
     link: '/theme-changer',
-    icon: Icons.settings_outlined
+    icon: Icons.color_lens_outlined
   ),
 
   MenuItem(
@@ -39,7 +39,7 @@ const appMenuItems = <MenuItem>[
 
   MenuItem(
     title: 'Cerrar Sesión',
-    subTitle: 'Ingresa con tu correo',
+    subTitle: 'Salir del sistema',
     link: '/Logout',
     icon: Icons.logout_outlined
   ),
