@@ -72,11 +72,12 @@ class _LogoutScreenState extends ConsumerState<LogoutScreen> {
               children: [
                 const Text('Sesión cerrada'),
                 const SizedBox(height: 20,),
-                TextButton(
+                TextButton.icon(
                   onPressed: () {
                     context.go('/');
                   },
-                  child: const Text('Regresa al inicio'))
+                  icon: const Icon(Icons.arrow_back_ios_new_outlined), label: const Text('Regresa al inicio'),
+                )
               ],
             ))
       );
