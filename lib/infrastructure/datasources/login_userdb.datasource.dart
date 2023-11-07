@@ -22,8 +22,20 @@ class LoginUserdbDatasource extends LoginUserDatasource {
     final SelectUser registerUser = LoginUserMapper.loginUserDBToEntity(loginUserDB);
 
     return registerUser;
-    
 
+  }
+  
+  @override
+  Future<SelectUser> dataUser({String emailUser = ''}) async {
+    
+    final response = await dio.get('?data=1&email=$emailUser');
+    if(response.statusCode != 200) throw Exception('Error al iniciar sesión, intente de nuevo');
+    
+    final loginUserDB = SelectUserDb.fromJson(response.data);
+    
+    final SelectUser dataUser = LoginUserMapper.loginUserDBToEntity(loginUserDB);
+
+    return dataUser;
   }
     
 }

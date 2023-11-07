@@ -17,7 +17,8 @@ class SideMenu extends ConsumerStatefulWidget {
 }
 
 class _SideMenuState extends ConsumerState<SideMenu> {
-  final isLoggedUser = FutureProviderFamily<bool, int>((ref, isarId) {
+  
+  final isLoggedUser = FutureProvider.family.autoDispose((ref, int isarId) {
     final localStorageRepository = ref.watch(loggedUserRepositoryProvider);
     return localStorageRepository.islogged(isarId);
   });
@@ -73,7 +74,7 @@ class _SideMenuState extends ConsumerState<SideMenu> {
         ))
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextButton.icon(onPressed: () => context.go('/logout'), icon: const Icon(Icons.logout_outlined), label: const Text('Cerrar sesión')),
+            child: TextButton.icon(onPressed: () => context.go('/Logout'), icon: const Icon(Icons.logout_outlined), label: const Text('Cerrar sesión')),
           )
         else
           ...appMenuItems.sublist(2, 3).map((item) =>

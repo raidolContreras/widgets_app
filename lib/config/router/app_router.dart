@@ -66,5 +66,11 @@ final appRouter = GoRouter(
         return  ResponceLoginScreen(emailUser: emailUser, passwordUser: passwordUser,);
       },
     ),
+    
+    GoRoute(
+      path: '/Logout',
+      name: LogoutScreen.name,
+      builder: (context, state) => const LogoutScreen(),
+    ),
   ],
 );

@@ -15,5 +15,10 @@ class LoginUserRepositoryImpl extends LoginUserRepository{
   Future<SelectUser> loginUser({String emailUser = '', String passwordUser = ''}) {
     return datasource.loginUser(emailUser: emailUser, passwordUser: passwordUser);
   }
+  
+  @override
+  Future<SelectUser> dataUser({String emailUser = ''}) {
+    return datasource.dataUser(emailUser: emailUser);
+  }
 
 }

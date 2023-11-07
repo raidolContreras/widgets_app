@@ -7,6 +7,6 @@ abstract class LocalStorageRepository{
 
   Future<bool> islogged(int userId);
   
-  Future<List<SelectUser>> loadUserData({offset = 0, limit = 1});
+  Future<List<SelectUser>> loadUserData({offset = 1, limit = 1});
 
 }

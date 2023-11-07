@@ -5,4 +5,6 @@ abstract class LoginUserDatasource {
   
   Future<SelectUser> loginUser({String emailUser, String passwordUser});
 
+  Future<SelectUser> dataUser({String emailUser});
+
 }
