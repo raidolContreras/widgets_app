@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:in_library/domain/entities/select_user.dart';
 import 'package:in_library/presentation/providers/providers.dart';
 import '/config/menu/menus.dart';
 
@@ -23,17 +24,19 @@ class _SideMenuState extends ConsumerState<SideMenu> {
     return localStorageRepository.islogged(isarId);
   });
 
-  int navDrawerIndex = 0;
-
   @override
   Widget build(BuildContext context) {
+    
+    ref.read(userDataProvider.notifier).loadDataUser();
     final colors = Theme.of(context).colorScheme;
-    MenuItem menuItem = appMenuItems[navDrawerIndex];
     final isLogged = ref.watch(isLoggedUser(1));
+    
+    final userData = ref.watch(userDataProvider).values.toList();
+
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
     List<Widget> menuItems = [];
 
-    menuItems.add( _DrawerHeader(colors: colors));
+    menuItems.add( _DrawerHeader(colors: colors, isLogged: isLogged, user: userData,));
 
     menuItems.add(Padding(
       padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 10),
@@ -44,10 +47,11 @@ class _SideMenuState extends ConsumerState<SideMenu> {
       leading: const Icon(
         Icons.book_outlined,
       ),
-      title: Text(menuItem.title),
-      subtitle: Text(menuItem.subTitle),
+      title: Text(appMenuItems[0].title),
+      subtitle: Text(appMenuItems[0].subTitle),
       onTap: () {
-        context.push(menuItem.link);
+        context.push(appMenuItems[0].link);
+        Navigator.pop(context);
       },
     ));
 
@@ -69,6 +73,7 @@ class _SideMenuState extends ConsumerState<SideMenu> {
           subtitle: Text(appMenuItems[4].subTitle),
           onTap: () {
             context.push(appMenuItems[4].link);
+            Navigator.pop(context);
           },
         ));
       } else {
@@ -79,11 +84,12 @@ class _SideMenuState extends ConsumerState<SideMenu> {
                 borderRadius: BorderRadiusDirectional.circular(20),
                 child: ListTile(
                   leading: Icon(
-                    appMenuItems[4].icon,
+                    appMenuItems[3].icon,
                   ),
-                  title: Text(appMenuItems[4].title),
+                  title: Text(appMenuItems[3].title),
                   onTap: () {
-                    context.push(appMenuItems[4].link);
+                    context.push(appMenuItems[3].link);
+                    Navigator.pop(context);
                   },
                 ),
               ),
@@ -99,35 +105,66 @@ class _SideMenuState extends ConsumerState<SideMenu> {
 
 class _DrawerHeader extends StatelessWidget {
   const _DrawerHeader({
-    required this.colors,
+    required this.colors, required this.isLogged, this.user,
   });
 
   final ColorScheme colors;
+  final AsyncValue<bool> isLogged;
+  final List<SelectUser>? user;
 
   @override
   Widget build(BuildContext context) {
     return DrawerHeader(
       decoration: BoxDecoration(
-        color: colors.primary
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [colors.primary, colors.secondary],
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Text('InLibrary', textAlign: TextAlign.right, style: TextStyle(color: colors.onPrimary),),
-                ],
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('InLibrary', style: TextStyle(color: colors.onPrimary, fontSize: 24, fontWeight: FontWeight.bold),),
+                    if (isLogged.when(
+                        data: (data) => data,
+                        loading: () => false,
+                        error: (error, stackTrace) => false,
+                      )) 
+                      Flexible(child: Text(user![0].firstname, style: TextStyle(color: colors.onPrimary, fontSize: 18),)), // Añadido Flexible
+                    if (isLogged.when(
+                        data: (data) => data,
+                        loading: () => false,
+                        error: (error, stackTrace) => false,
+                      )) 
+                      Flexible(child: Text(user![0].lastname, style: TextStyle(color: colors.onPrimary, fontSize: 18),)), // Añadido Flexible
+                    if (isLogged.when(
+                        data: (data) => data,
+                        loading: () => false,
+                        error: (error, stackTrace) => false,
+                      )) 
+                      Flexible(child: Text(user![0].email, style: TextStyle(color: colors.onPrimary, fontSize: 10),)), // Añadido Flexible
+                  ],
+                ),
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                IconButton(onPressed: () => context.push(appMenuItems[1].link), icon: Icon( appMenuItems[1].icon , color: colors.onPrimary),),
-              ],
+            Container(
+              decoration: BoxDecoration(
+                color: colors.onPrimary,
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: IconButton(
+                onPressed: () {context.push(appMenuItems[1].link); Navigator.pop(context);}, 
+                icon: Icon( appMenuItems[1].icon , color: colors.primary, size: 30,),
+              ),
             ),
           ],
         ),
