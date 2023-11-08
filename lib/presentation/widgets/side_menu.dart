@@ -33,7 +33,80 @@ class _SideMenuState extends ConsumerState<SideMenu> {
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
     List<Widget> menuItems = [];
 
-    menuItems.add( DrawerHeader(
+    menuItems.add( _DrawerHeader(colors: colors));
+
+    menuItems.add(Padding(
+      padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 10),
+      child: const Text('Menú'),
+    ));
+
+    menuItems.add(ListTile(
+      leading: const Icon(
+        Icons.book_outlined,
+      ),
+      title: Text(menuItem.title),
+      subtitle: Text(menuItem.subTitle),
+      onTap: () {
+        context.push(menuItem.link);
+      },
+    ));
+
+    menuItems.add(const Padding(
+      padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
+      child: Divider(),
+    ));
+
+      if (isLogged.when(
+          data: (data) => data,
+          loading: () => false,
+          error: (error, stackTrace) => false,
+        )) {
+        menuItems.add(ListTile(
+          leading: Icon(
+            appMenuItems[4].icon,
+          ),
+          title: Text(appMenuItems[4].title),
+          subtitle: Text(appMenuItems[4].subTitle),
+          onTap: () {
+            context.push(appMenuItems[4].link);
+          },
+        ));
+      } else {
+        menuItems.add(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadiusDirectional.circular(20),
+                child: ListTile(
+                  leading: Icon(
+                    appMenuItems[4].icon,
+                  ),
+                  title: Text(appMenuItems[4].title),
+                  onTap: () {
+                    context.push(appMenuItems[4].link);
+                  },
+                ),
+              ),
+            )
+        );
+      }
+
+    return NavigationDrawer(
+      children: menuItems,
+    );
+  }
+}
+
+class _DrawerHeader extends StatelessWidget {
+  const _DrawerHeader({
+    required this.colors,
+  });
+
+  final ColorScheme colors;
+
+  @override
+  Widget build(BuildContext context) {
+    return DrawerHeader(
       decoration: BoxDecoration(
         color: colors.primary
       ),
@@ -59,72 +132,6 @@ class _SideMenuState extends ConsumerState<SideMenu> {
           ],
         ),
       ),
-    ));
-
-    menuItems.add(Padding(
-      padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 10),
-      child: const Text('Menú'),
-    ));
-
-    menuItems.add(ListTile(
-      leading: const Icon(
-        Icons.book_outlined,
-      ),
-      title: Text(menuItem.title),
-      subtitle: Text(menuItem.subTitle),
-      onTap: () {
-        context.push(menuItem.link);
-      },
-    ));
-
-    menuItems.add(const Padding(
-      padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
-      child: Divider(),
-    ));
-
-    for (var i = 1; i < appMenuItems.length; i++) {
-      if (isLogged.when(
-            data: (data) => data,
-            loading: () => false,
-            error: (error, stackTrace) => false,
-          )) {
-        if (appMenuItems[i].title != 'Iniciar Sesión' && appMenuItems[i].title != 'Reglamento' && appMenuItems[i].title != 'Temas') {
-          menuItems.add(ListTile(
-            leading: Icon(
-              appMenuItems[i].icon,
-            ),
-            title: Text(appMenuItems[i].title),
-            subtitle: Text(appMenuItems[i].subTitle),
-            onTap: () {
-              context.push(appMenuItems[i].link);
-            },
-          ));
-        }
-      } else {
-        if (appMenuItems[i].title != 'Cerrar Sesión' && appMenuItems[i].title != 'Reglamento' && appMenuItems[i].title != 'Temas') {
-          menuItems.add(
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadiusDirectional.circular(20),
-                  child: ListTile(
-                    leading: Icon(
-                      appMenuItems[i].icon,
-                    ),
-                    title: Text(appMenuItems[i].title),
-                    onTap: () {
-                      context.push(appMenuItems[i].link);
-                    },
-                  ),
-                ),
-              )
-          );
-        }
-      }
-    }
-
-    return NavigationDrawer(
-      children: menuItems,
     );
   }
 }

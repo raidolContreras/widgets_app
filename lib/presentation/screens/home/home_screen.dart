@@ -19,10 +19,19 @@ class HomeScreen extends StatelessWidget {
       child: AppBar(
         title: const Text('InLibrary'),
         centerTitle: true,
+        actions: [
+          Builder(
+              builder: (context) => IconButton(
+                    icon: const Icon(Icons.sort),
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  ),
+            ),
+        ],
       ),
     ),
       body: const _HomeView(),
-      endDrawer: SideMenu(scaffoldKey: scaffoldKey),
+      endDrawer: SideMenu(scaffoldKey: scaffoldKey, ),
       bottomNavigationBar: const CustomBottonNavigationBar( currentIndex: 0),
     );
   }

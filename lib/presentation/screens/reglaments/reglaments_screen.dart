@@ -35,6 +35,15 @@ class ReglamentsScreenState extends ConsumerState<ReglamentsScreen> {
       child: AppBar(
         title: const Text('Reglamentos'),
         centerTitle: true,
+        actions: [
+          Builder(
+              builder: (context) => IconButton(
+                    icon: const Icon(Icons.sort),
+                    onPressed: () => Scaffold.of(context).openEndDrawer(),
+                    tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                  ),
+            ),
+        ],
       ),
     ),
       body: CustomScrollView(

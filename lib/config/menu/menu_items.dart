@@ -27,7 +27,7 @@ const appMenuItems = <MenuItem>[
     title: 'Temas',
     subTitle: 'Cambio de tema y modo de la',
     link: '/theme-changer',
-    icon: Icons.color_lens_outlined
+    icon: Icons.settings_outlined
   ),
 
   MenuItem(
