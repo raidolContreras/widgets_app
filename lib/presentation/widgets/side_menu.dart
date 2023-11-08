@@ -27,60 +27,104 @@ class _SideMenuState extends ConsumerState<SideMenu> {
 
   @override
   Widget build(BuildContext context) {
-    // Obtener el estado de autenticación del usuario (isLogged)
+    final colors = Theme.of(context).colorScheme;
+    MenuItem menuItem = appMenuItems[navDrawerIndex];
     final isLogged = ref.watch(isLoggedUser(1));
-
-    // Verificar si el dispositivo tiene una "notch"
     final hasNotch = MediaQuery.of(context).viewPadding.top > 35;
+    List<Widget> menuItems = [];
+
+    menuItems.add( DrawerHeader(
+      decoration: BoxDecoration(
+        color: colors.primary
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Text('InLibrary', textAlign: TextAlign.right, style: TextStyle(color: colors.onPrimary),),
+                ],
+              ),
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                IconButton(onPressed: () => context.push(appMenuItems[1].link), icon: Icon( appMenuItems[1].icon , color: colors.onPrimary),),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ));
+
+    menuItems.add(Padding(
+      padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 10),
+      child: const Text('Menú'),
+    ));
+
+    menuItems.add(ListTile(
+      leading: const Icon(
+        Icons.book_outlined,
+      ),
+      title: Text(menuItem.title),
+      subtitle: Text(menuItem.subTitle),
+      onTap: () {
+        context.push(menuItem.link);
+      },
+    ));
+
+    menuItems.add(const Padding(
+      padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
+      child: Divider(),
+    ));
+
+    for (var i = 1; i < appMenuItems.length; i++) {
+      if (isLogged.when(
+            data: (data) => data,
+            loading: () => false,
+            error: (error, stackTrace) => false,
+          )) {
+        if (appMenuItems[i].title != 'Iniciar Sesión' && appMenuItems[i].title != 'Reglamento' && appMenuItems[i].title != 'Temas') {
+          menuItems.add(ListTile(
+            leading: Icon(
+              appMenuItems[i].icon,
+            ),
+            title: Text(appMenuItems[i].title),
+            subtitle: Text(appMenuItems[i].subTitle),
+            onTap: () {
+              context.push(appMenuItems[i].link);
+            },
+          ));
+        }
+      } else {
+        if (appMenuItems[i].title != 'Cerrar Sesión' && appMenuItems[i].title != 'Reglamento' && appMenuItems[i].title != 'Temas') {
+          menuItems.add(
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadiusDirectional.circular(20),
+                  child: ListTile(
+                    leading: Icon(
+                      appMenuItems[i].icon,
+                    ),
+                    title: Text(appMenuItems[i].title),
+                    onTap: () {
+                      context.push(appMenuItems[i].link);
+                    },
+                  ),
+                ),
+              )
+          );
+        }
+      }
+    }
 
     return NavigationDrawer(
-      selectedIndex: navDrawerIndex,
-      onDestinationSelected: (value) {
-        setState(() {
-          navDrawerIndex = value;
-        });
-
-        final menuItem = appMenuItems[value];
-        // Navegar a la página seleccionada
-        context.push(menuItem.link);
-        // Cerrar el menú lateral
-        widget.scaffoldKey.currentState?.openEndDrawer();
-      },
-      children: [
-        Padding(
-          padding: EdgeInsets.fromLTRB(28, hasNotch ? 10 : 20, 16, 10),
-          child: const Text('Menú'),
-        ),
-        // Mostrar los primeros elementos de menú
-        ...appMenuItems.sublist(0, 1).map((item) =>
-            NavigationDrawerDestination(icon: Icon(item.icon), label: Text(item.title)),
-        ),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
-          child: Divider(),
-        ),
-        const Padding(
-          padding: EdgeInsets.fromLTRB(28, 10, 16, 10),
-          child: Text('Configuraciones'),
-        ),
-          ...appMenuItems.sublist(1, 2).map((item) =>
-            NavigationDrawerDestination(icon: Icon(item.icon), label: Text(item.title)),
-          ),
-        // Mostrar elementos de menú adicionales si el usuario está autenticado
-        if (isLogged.when(
-          data: (data) => data,
-          loading: () => false,
-          error: (error, stackTrace) => false,
-        ))
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextButton.icon(onPressed: () => context.go('/Logout'), icon: const Icon(Icons.logout_outlined), label: const Text('Cerrar sesión')),
-          )
-        else
-          ...appMenuItems.sublist(2, 3).map((item) =>
-            NavigationDrawerDestination(icon: Icon(item.icon), label: Text(item.title)),
-          ),
-      ],
+      children: menuItems,
     );
   }
 }

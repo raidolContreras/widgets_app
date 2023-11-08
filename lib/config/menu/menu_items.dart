@@ -31,6 +31,13 @@ const appMenuItems = <MenuItem>[
   ),
 
   MenuItem(
+    title: 'Reglamento',
+    subTitle: 'Lee todo el reglamento',
+    link: '/reglament/:idReglament',
+    icon: Icons.book_online_outlined
+  ),
+
+  MenuItem(
     title: 'Iniciar Sesión',
     subTitle: 'Ingresa con tu correo',
     link: '/Login',
@@ -43,13 +50,5 @@ const appMenuItems = <MenuItem>[
     link: '/Logout',
     icon: Icons.logout_outlined
   ),
-
-  MenuItem(
-    title: 'Reglamento',
-    subTitle: '',
-    link: '/reglament/:idReglament',
-    icon: Icons.settings_outlined
-  ),
-
   
 ];

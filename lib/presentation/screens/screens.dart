@@ -9,3 +9,4 @@ export 'login/responce_login_screen.dart';
 export 'login/logout_screen.dart';
 export 'register/register_screen.dart';
 export 'register/send_register_screen.dart';
+export 'profile/profile_screen.dart';

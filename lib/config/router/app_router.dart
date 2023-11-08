@@ -72,5 +72,11 @@ final appRouter = GoRouter(
       name: LogoutScreen.name,
       builder: (context, state) => const LogoutScreen(),
     ),
+
+    GoRoute(
+      path: '/Profile',
+      name: ProfileScreen.name,
+      builder: (context, state) => const ProfileScreen(),
+    ),
   ],
 );

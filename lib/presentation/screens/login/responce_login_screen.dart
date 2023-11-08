@@ -77,7 +77,7 @@ class _ResponceLoginScreenState extends ConsumerState<ResponceLoginScreen> {
                 : Text(loginUser.message, style: const TextStyle(color: Colors.red, fontSize: 20),),
               
               TextButton.icon(onPressed: () {
-                context.push('/');
+                context.go('/');
               }, icon: const Icon(Icons.arrow_back_ios_new_outlined), label: const Text('Volver al inicio'))
             ],
           ),
