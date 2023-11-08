@@ -31,21 +31,21 @@ class ReglamentsScreenState extends ConsumerState<ReglamentsScreen> {
     return Scaffold(
       key: scaffoldKey,
       appBar: PreferredSize(
-      preferredSize: const Size.fromHeight(kToolbarHeight),
-      child: AppBar(
-        title: const Text('Reglamentos'),
-        centerTitle: true,
-        actions: [
-          Builder(
-              builder: (context) => IconButton(
-                    icon: const Icon(Icons.sort),
-                    onPressed: () => Scaffold.of(context).openEndDrawer(),
-                    tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
-                  ),
-            ),
-        ],
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: AppBar(
+          title: const Text('Reglamentos'),
+          centerTitle: true,
+          actions: [
+            Builder(
+                builder: (context) => IconButton(
+                      icon: const Icon(Icons.sort),
+                      onPressed: () => Scaffold.of(context).openEndDrawer(),
+                      tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                    ),
+              ),
+          ],
+        ),
       ),
-    ),
       body: CustomScrollView(
         slivers: [
           SliverList(delegate: SliverChildBuilderDelegate(

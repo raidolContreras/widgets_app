@@ -1,6 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:in_library/domain/entities/titles.dart';
 
 
@@ -55,31 +56,34 @@ class _Slide extends StatelessWidget {
         )
       ]
     );
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Column(
-        children: [
-          DecoratedBox(
-            decoration: decoration,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(20),
-              child: Image.network(
-                title.coverName,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if(loadingProgress != null){
-                    return const DecoratedBox(
-                      decoration: BoxDecoration(color: Colors.black12),
-                    );
-                  }
-                  return FadeIn(child: child);
-                },
+    return GestureDetector(
+      onTap: () => context.push('/Reglament/${title.idTitles}'),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Column(
+          children: [
+            DecoratedBox(
+              decoration: decoration,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(20),
+                child: Image.network(
+                  title.coverName,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if(loadingProgress != null){
+                      return const DecoratedBox(
+                        decoration: BoxDecoration(color: Colors.black12),
+                      );
+                    }
+                    return FadeIn(child: child);
+                  },
+                )
               )
-            )
-          ),
-          const SizedBox(height: 20,),
-          Text(title.nameTitle, maxLines: 2, overflow: TextOverflow.ellipsis,)
-        ],
+            ),
+            const SizedBox(height: 20,),
+            Text(title.nameTitle, maxLines: 2, overflow: TextOverflow.ellipsis,)
+          ],
+        ),
       ),
     );
   }
