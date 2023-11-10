@@ -33,7 +33,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/Reglament/:idReglament',
       name: ReglamentScreen.name,
-      builder: (context, state) => const ReglamentScreen(),
+      builder: (context, state)  {
+        final String idReglament = state.pathParameters['idReglament'] ?? 'sin-id';
+        return ReglamentScreen(reglamentId: idReglament,);
+      },
     ),
 
     GoRoute(
