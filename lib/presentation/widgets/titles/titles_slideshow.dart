@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:in_library/domain/entities/titles.dart';
 
-
 class TitlesSlideshow extends StatelessWidget {
   final List<Titles> titles;
+
   const TitlesSlideshow({
     super.key,
     required this.titles
@@ -14,27 +14,39 @@ class TitlesSlideshow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
     final colors = Theme.of(context).colorScheme;
-    return SizedBox(
-      height: 300,
-      width: double.infinity,
-      child: Swiper(
-        viewportFraction: 0.3,
-        scale: 0.6,
-        autoplay: false,
-        itemCount: titles.length,
-        pagination: SwiperPagination(
-          margin: const EdgeInsets.only(top: 0),
-          builder: DotSwiperPaginationBuilder(
-            activeColor: colors.primary,
-            color: colors.secondary
-          )
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 30),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 300,
+              width: double.infinity,
+              child: Swiper(
+                viewportFraction: 0.3,
+                scale: 0.6,
+                autoplay: true,
+                autoplayDelay: 5000,
+                itemCount: titles.length,
+                pagination: SwiperPagination(
+                  margin: const EdgeInsets.only(top: 0),
+                  builder: DotSwiperPaginationBuilder(
+                    activeColor: colors.primary,
+                    color: colors.secondary
+                  )
+                ),
+                itemBuilder: (context, index) {
+                  final title = titles[index];
+                  return FadeInLeft(
+                    duration: Duration(milliseconds: 500),
+                    child: _Slide(title: title),
+                  );
+                },
+              ),
+            ),
+          ],
         ),
-        itemBuilder: (context, index) {
-          final title = titles[index];
-          return _Slide(title: title);
-        },
       ),
     );
   }
@@ -42,10 +54,12 @@ class TitlesSlideshow extends StatelessWidget {
 
 class _Slide extends StatelessWidget {
   final Titles title;
+
   const _Slide({required this.title});
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     final decoration = BoxDecoration(
       borderRadius: BorderRadius.circular(20),
       boxShadow: const [
@@ -81,7 +95,15 @@ class _Slide extends StatelessWidget {
               )
             ),
             const SizedBox(height: 20,),
-            Text(title.nameTitle, maxLines: 2, overflow: TextOverflow.ellipsis,)
+            Text(
+              title.nameTitle, 
+              maxLines: 1, 
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                color: colors.primary,
+                fontSize: 16,
+              ),
+            )
           ],
         ),
       ),
