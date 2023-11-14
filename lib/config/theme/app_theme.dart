@@ -21,7 +21,7 @@ class AppTheme {
 
   AppTheme({
     this.selectedColor = 0,
-    this.isDarkmode = true,
+    this.isDarkmode = false,
     this.allowOrientationChange = false,
   }) : assert(selectedColor >= 0, 'Selected color must be greater than or equal to 0'),
        assert(selectedColor < colorList.length, 'Selected color must be less than ${colorList.length}');

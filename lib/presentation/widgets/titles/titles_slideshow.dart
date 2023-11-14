@@ -15,38 +15,35 @@ class TitlesSlideshow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 30),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 300,
-              width: double.infinity,
-              child: Swiper(
-                viewportFraction: 0.3,
-                scale: 0.6,
-                autoplay: true,
-                autoplayDelay: 5000,
-                itemCount: titles.length,
-                pagination: SwiperPagination(
-                  margin: const EdgeInsets.only(top: 0),
-                  builder: DotSwiperPaginationBuilder(
-                    activeColor: colors.primary,
-                    color: colors.secondary
-                  )
-                ),
-                itemBuilder: (context, index) {
-                  final title = titles[index];
-                  return FadeInLeft(
-                    duration: Duration(milliseconds: 500),
-                    child: _Slide(title: title),
-                  );
-                },
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 35),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 400,
+            width: double.infinity,
+            child: Swiper(
+              viewportFraction: 0.4,
+              scale: 0.5,
+              autoplay: false,
+              itemCount: titles.length,
+              pagination: SwiperPagination(
+                margin: const EdgeInsets.only(top: 10),
+                builder: DotSwiperPaginationBuilder(
+                  activeColor: colors.primary,
+                  color: colors.secondary
+                )
               ),
+              itemBuilder: (context, index) {
+                final title = titles[index];
+                return FadeInLeft(
+                  duration: const Duration(milliseconds: 500),
+                  child: _Slide(title: title),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -61,7 +58,7 @@ class _Slide extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final decoration = BoxDecoration(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(25),
       boxShadow: const [
         BoxShadow(
           color: Colors.black38,
@@ -79,7 +76,7 @@ class _Slide extends StatelessWidget {
             DecoratedBox(
               decoration: decoration,
               child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(25),
                 child: Image.network(
                   title.coverName,
                   fit: BoxFit.cover,
@@ -97,7 +94,7 @@ class _Slide extends StatelessWidget {
             const SizedBox(height: 20,),
             Text(
               title.nameTitle, 
-              maxLines: 1, 
+              maxLines: 2, 
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: colors.primary,

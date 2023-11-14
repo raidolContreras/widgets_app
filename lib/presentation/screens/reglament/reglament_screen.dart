@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_library/domain/entities/reglaments.dart';
@@ -18,6 +19,7 @@ class ReglamentScreen extends ConsumerStatefulWidget {
 class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final PageController _pageController = PageController();
+  // ignore: unused_field
   int _currentPage = 0;
   bool _canGoBack = false;
   bool _canGoForward = true;
@@ -57,7 +59,6 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18.0,
-                fontFamily: 'Roboto',
               ),
             ),
           ),
@@ -92,7 +93,6 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
               fontSize: 24.0,
               letterSpacing: 1.2,
               color: colors.onBackground,
-              fontFamily: 'Montserrat',
             ),
           ),
           centerTitle: true,
@@ -160,12 +160,13 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
                     } else {
                       final chapter = reglament.chapters[index - 1];
                       return Padding(
-                        padding: const EdgeInsets.only(left: 25, right: 25, bottom: 70),
+                        padding: const EdgeInsets.only(left: 25, right: 25, bottom: 40),
                         child: ListView(
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                const SizedBox(height: 12.0),
                                 Hero(
                                   tag: 'chapter_title_$index',
                                   child: Text(
@@ -175,7 +176,6 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
                                       fontSize: 24.0,
                                       letterSpacing: 1.2,
                                       color: colors.onBackground,
-                                      fontFamily: 'Montserrat',
                                     ),
                                   ),
                                 ),
@@ -193,7 +193,6 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
                                             fontSize: 20.0,
                                             letterSpacing: 1.1,
                                             color: colors.onBackground,
-                                            fontFamily: 'Montserrat',
                                           ),
                                         ),
                                       ),
@@ -210,13 +209,12 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
                                                   fontWeight: FontWeight.bold,
                                                   fontSize: 18.0,
                                                   color: colors.onBackground,
-                                                  fontFamily: 'Montserrat',
                                                 ),
                                               ),
                                             ),
                                             const SizedBox(height: 4.0),
                                             ...article.paragraphs.map((paragraph) {
-                                              return FadeInAnimation(
+                                              return FadeIn(
                                                 child: Container(
                                                   margin: const EdgeInsets.symmetric(vertical: 4.0),
                                                   padding: const EdgeInsets.all(8.0),
@@ -279,46 +277,6 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class FadeInAnimation extends StatefulWidget {
-  final Widget child;
-
-  const FadeInAnimation({super.key, required this.child});
-
-  @override
-  FadeInAnimationState createState() => FadeInAnimationState();
-}
-
-class FadeInAnimationState extends State<FadeInAnimation> with SingleTickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<double> _animation;
-
-  @override
-  void initState() {
-    super.initState();
-    _animationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
-    _animation = Tween<double>(begin: 0, end: 1).animate(_animationController);
-
-    _animationController.forward();
-  }
-
-  @override
-  void dispose() {
-    _animationController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _animation,
-      child: widget.child,
     );
   }
 }

@@ -43,14 +43,12 @@ class _HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firstMenuItem = appMenuItems.isNotEmpty ? appMenuItems.first : null;
-    final colors = Theme.of(context).colorScheme;
 
     return Column(
       children: [
-        Icon(
-          Icons.library_books,
-          size: 100,
-          color: colors.primary,
+        Image.asset(
+          'assets/images/logo.png',
+          scale: 9,
         ),
         const SizedBox(height: 20),
         const Text(
