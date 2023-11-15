@@ -60,42 +60,54 @@ class _SideMenuState extends ConsumerState<SideMenu> {
       child: Divider(),
     ));
 
-      if (isLogged.when(
-          data: (data) => data,
-          loading: () => false,
-          error: (error, stackTrace) => false,
-        )) {
-        menuItems.add(ListTile(
-          leading: Icon(
-            appMenuItems[4].icon,
-          ),
-          title: Text(appMenuItems[4].title),
-          subtitle: Text(appMenuItems[4].subTitle),
-          onTap: () {
-            context.push(appMenuItems[4].link);
-            Navigator.pop(context);
-          },
-        ));
-      } else {
-        menuItems.add(
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ClipRRect(
-                borderRadius: BorderRadiusDirectional.circular(20),
-                child: ListTile(
-                  leading: Icon(
-                    appMenuItems[3].icon,
-                  ),
-                  title: Text(appMenuItems[3].title),
-                  onTap: () {
-                    context.push(appMenuItems[3].link);
-                    Navigator.pop(context);
-                  },
-                ),
+    if (isLogged.when(
+        data: (data) => data,
+        loading: () => false,
+        error: (error, stackTrace) => false,
+      )) {
+
+      // Nuevo botón para ir al perfil del usuario
+      menuItems.add(ListTile(
+        leading: const Icon(
+          Icons.person,
+        ),
+        title: const Text('Ver perfil'),
+        onTap: () {
+          context.push(appMenuItems[5].link); // Reemplaza con la ruta correcta para el perfil del usuario
+          Navigator.pop(context);
+        },
+      ));
+      menuItems.add(ListTile(
+        leading: Icon(
+          appMenuItems[4].icon,
+        ),
+        title: Text(appMenuItems[4].title),
+        subtitle: Text(appMenuItems[4].subTitle),
+        onTap: () {
+          context.push(appMenuItems[4].link);
+          Navigator.pop(context);
+        },
+      ));
+    } else {
+      menuItems.add(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ClipRRect(
+            borderRadius: BorderRadiusDirectional.circular(20),
+            child: ListTile(
+              leading: Icon(
+                appMenuItems[3].icon,
               ),
-            )
-        );
-      }
+              title: Text(appMenuItems[3].title),
+              onTap: () {
+                context.push(appMenuItems[3].link);
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        )
+      );
+    }
 
     return NavigationDrawer(
       children: menuItems,
@@ -139,19 +151,19 @@ class _DrawerHeader extends StatelessWidget {
                         loading: () => false,
                         error: (error, stackTrace) => false,
                       )) 
-                      Flexible(child: Text(user![0].firstname, style: TextStyle(color: colors.onPrimary, fontSize: 18),)), // Añadido Flexible
+                      Flexible(child: Text(user![0].firstname, style: TextStyle(color: colors.onPrimary, fontSize: 18),)),
                     if (isLogged.when(
                         data: (data) => data,
                         loading: () => false,
                         error: (error, stackTrace) => false,
                       )) 
-                      Flexible(child: Text(user![0].lastname, style: TextStyle(color: colors.onPrimary, fontSize: 18),)), // Añadido Flexible
+                      Flexible(child: Text(user![0].lastname, style: TextStyle(color: colors.onPrimary, fontSize: 18),)),
                     if (isLogged.when(
                         data: (data) => data,
                         loading: () => false,
                         error: (error, stackTrace) => false,
                       )) 
-                      Flexible(child: Text(user![0].email, style: TextStyle(color: colors.onPrimary, fontSize: 10),)), // Añadido Flexible
+                      Flexible(child: Text(user![0].email, style: TextStyle(color: colors.onPrimary, fontSize: 10),)),
                   ],
                 ),
               ),

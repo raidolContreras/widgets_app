@@ -50,5 +50,12 @@ const appMenuItems = <MenuItem>[
     link: '/Logout',
     icon: Icons.logout_outlined
   ),
+
+  MenuItem(
+    title: 'Mi Perfil',
+    subTitle: '',
+    link: '/Profile',
+    icon: Icons.login_outlined
+  ),
   
 ];
