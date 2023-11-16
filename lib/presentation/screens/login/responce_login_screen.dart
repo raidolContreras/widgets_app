@@ -35,12 +35,7 @@ class _ResponceLoginScreenState extends ConsumerState<ResponceLoginScreen> {
 
   Future<void> _loginUser() async {
     final loginUserdbDatasource = LoginUserdbDatasource();
-    loginUser = await loginUserdbDatasource.loginUser(emailUser: widget.emailUser, passwordUser: widget.passwordUser);
-    
-    // Mostrar el indicador de carga durante 5 segundos
-    setState(() {
-      isLoading = true;
-    });
+    loginUser = await loginUserdbDatasource.loginUser(widget.emailUser, widget.passwordUser);
 
     await Future.delayed(const Duration(seconds: 1));
     
@@ -57,12 +52,18 @@ class _ResponceLoginScreenState extends ConsumerState<ResponceLoginScreen> {
   Widget build(BuildContext context) {
 
     return isLoading
-      ? const Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          CircularProgressIndicator(strokeWidth: 2,),
-        ],
+      ? const Scaffold(
+        body: Center(
+          child:  Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CircularProgressIndicator(strokeWidth: 2,),
+              SizedBox(height: 20,),
+              Text('Iniciando sesión')
+            ],
+          ),
+        ),
       )
       : Scaffold(
         appBar: AppBar(

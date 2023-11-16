@@ -15,6 +15,19 @@ final appRouter = GoRouter(
           name: LoginScreen.name,
           builder: (context, state) => const LoginScreen(),
         ),
+        GoRoute(
+          path: 'updateData/:idUser/:nameUser/:lastnameUser/:birthdayUser/:phoneUser',
+          name: UpdateDataScreen.name,
+          builder: (context, state) {
+            final String idUser = state.pathParameters['idUser'] ?? '';
+            final String nameUser = state.pathParameters['nameUser'] ?? '';
+            final String lastnameUser = state.pathParameters['lastnameUser'] ?? '';
+            final String birthdayUser = state.pathParameters['birthdayUser'] ?? '';
+            final String phoneUser = state.pathParameters['phoneUser'] ?? '';
+
+            return UpdateDataScreen(idUser: idUser, nameUser: nameUser, lastnameUser: lastnameUser, birthdayUser: birthdayUser, phoneUser: phoneUser);
+          },
+        ),
       ]
     ),
 

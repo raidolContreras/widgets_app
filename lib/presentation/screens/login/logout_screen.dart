@@ -24,7 +24,7 @@ class _LogoutScreenState extends ConsumerState<LogoutScreen> {
     
     ref.read(userDataProvider.notifier).loadDataUser();
 
-    await Future.delayed(const Duration(seconds: 5));
+    await Future.delayed(const Duration(seconds: 1));
     // Ocultar el indicador de carga y mostrar el mensaje
     setState(() {
       isLoading = false;
@@ -42,11 +42,7 @@ class _LogoutScreenState extends ConsumerState<LogoutScreen> {
     final userData = ref.watch(userDataProvider).values.toList();
     return isLoading
       ? Scaffold(
-        body: ListView.builder(
-          itemCount: 1,
-          itemBuilder: (context, index) {
-            final dataUser = userData[index];
-            return Center(
+        body: Center(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -55,13 +51,11 @@ class _LogoutScreenState extends ConsumerState<LogoutScreen> {
                   const SizedBox(height: 20,),
                   const Text('Cerrando sesión:'),
                   const SizedBox(height: 20,),
-                  Text('Nos vemos luego ${dataUser.firstname} ${dataUser.lastname}'),
+                  Text('Nos vemos luego ${userData[0].firstname} ${userData[0].lastname}'),
                 ],
               ),
-            );
-          }
-        ),
-      )
+            )
+        )
       : Scaffold(
         appBar: AppBar(
         ),

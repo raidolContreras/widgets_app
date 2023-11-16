@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:in_library/presentation/providers/providers.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
@@ -21,6 +22,32 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   late TextEditingController lastnameController;
   late TextEditingController birthdayController;
   late TextEditingController phoneController;
+
+  void handleUpdateUser() {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      if (firstnameController.text.isEmpty ||
+          lastnameController.text.isEmpty ||
+          birthdayController.text.isEmpty ||
+          phoneController.text.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Los campos no pueden estar vacíos.'),
+          ),
+        );
+      } else {
+        final userData = ref.watch(userDataProvider).values.toList();
+
+        // Ajusta el formato de cumpleaños y teléfono
+        final formattedName = firstnameController.text;
+        final formattedLastname = lastnameController.text;
+        final formattedBirthday = formatBirthday(birthdayController.text);
+        final formattedPhone = formatPhone(phoneController.text);
+
+        context.go('/updateData/${userData[0].idUser}/$formattedName/$formattedLastname/$formattedBirthday/$formattedPhone');
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -45,11 +72,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
     final userData = ref.watch(userDataProvider).values.toList();
+    final formattedBirthday = formatBirthday2(userData[0].birthday);
 
     if (userData.isNotEmpty) {
       firstnameController.text = userData[0].firstname;
       lastnameController.text = userData[0].lastname;
-      birthdayController.text = userData[0].birthday;
+      birthdayController.text = formattedBirthday;
       phoneController.text = userData[0].phone;
     }
 
@@ -116,12 +144,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   FadeInDown(
                     delay: const Duration(milliseconds: 800),
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          _formKey.currentState!.save();
-                          // Realizar acción de guardar
-                        }
-                      },
+                      onPressed: handleUpdateUser,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: colors.primary,
                         foregroundColor: colors.onPrimary,
@@ -168,4 +191,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
       ),
     );
   }
+}
+
+String formatBirthday(String originalBirthday) {
+  // Convierte el formato de DD/MM/AAAA a AAAA-MM-DD
+  final parts = originalBirthday.split('/');
+  if (parts.length == 3) {
+    return '${parts[2]}-${parts[1]}-${parts[0]}';
+  }
+  return originalBirthday; // Devuelve el valor original si no se puede formatear
+}
+
+String formatBirthday2(String birthday) {
+  // Convierte el formato de DD/MM/AAAA a AAAA-MM-DD
+  final parts = birthday.split('-');
+  if (parts.length == 3) {
+    return '${parts[2]}${parts[1]}${parts[0]}';
+  }
+  return birthday; // Devuelve el valor original si no se puede formatear
+}
+
+String formatPhone(String originalPhone) {
+  // Elimina los caracteres no numéricos del número de teléfono
+  return originalPhone.replaceAll(RegExp(r'[^0-9]'), '');
 }

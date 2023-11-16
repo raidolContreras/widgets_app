@@ -12,7 +12,7 @@ class LoginUserdbDatasource extends LoginUserDatasource {
     ));
 
   @override
-  Future<SelectUser> loginUser({String emailUser = '', String passwordUser = ''}) async {
+  Future<SelectUser> loginUser(String emailUser, String passwordUser) async {
     
     final response = await dio.get('?login=1&email=$emailUser&password=$passwordUser');
     if(response.statusCode != 200) throw Exception('Error al iniciar sesión, intente de nuevo');

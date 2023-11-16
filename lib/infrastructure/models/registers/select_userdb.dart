@@ -26,7 +26,7 @@ class SelectUserDb {
         birthday: json["birthday"],
         email: json["email"],
         phone: json["phone"],
-        creationDate: DateTime.parse(json["creationDate"]),
+        creationDate: (json["creationDate"] != '') ? DateTime.parse(json["creationDate"]) : DateTime.now(),
         message: json["message"],
     );
 

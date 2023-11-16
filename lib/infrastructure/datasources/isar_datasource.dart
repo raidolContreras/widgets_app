@@ -25,6 +25,7 @@ class IsarDatasource extends LocalStorageDatasource{
     }
     return Future.value(Isar.getInstance());
   }
+
   @override
   Future<bool> islogged(int userId) async {
     final isar = await db;
@@ -58,6 +59,24 @@ class IsarDatasource extends LocalStorageDatasource{
 
     isar.writeTxnSync(() => isar.selectUsers.putSync(user));
     
+  }
+  
+  @override
+  Future<void> updateData(String idUser, String name, String lastname, String birthday, String phone) async {
+    final isar = await db;
+    final int id = int.parse(idUser);
+    await isar.writeTxn(() async {
+      final userToUpdate = await isar.selectUsers.where().filter().idUserEqualTo(id).findFirst();
+
+      if (userToUpdate != null) {
+        userToUpdate.firstname = name;
+        userToUpdate.lastname = lastname;
+        userToUpdate.birthday = birthday;
+        userToUpdate.phone = phone;
+
+        await isar.selectUsers.put(userToUpdate);
+      }
+    });
   }
   
   @override

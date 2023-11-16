@@ -7,9 +7,9 @@ final loadLoginUserProvider = StateNotifierProvider<LoginMapNotifier,  Map<Strin
   return LoginMapNotifier(getData: loadLoginUserRepository);
 });
 
-typedef TitleCallback = Future<SelectUser> Function({
+typedef TitleCallback = Future<SelectUser> Function(
   String emailUser, String passwordUser
-});
+);
 
 class LoginMapNotifier extends StateNotifier<Map<String, SelectUser>>{
 
@@ -22,7 +22,7 @@ class LoginMapNotifier extends StateNotifier<Map<String, SelectUser>>{
   Future<void> loadDataUser( String email, String password) async{
     if (state[email] != null || state[password] != null ) return;
     
-    final loginUser = await getData(emailUser: email, passwordUser: password);
+    final loginUser = await getData(email, password);
 
     state = {
       'email': loginUser, // Asigna el resultado del login al email

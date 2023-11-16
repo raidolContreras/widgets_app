@@ -8,11 +8,11 @@ class SelectUser {
   Id? isarId;
   
   final int idUser;
-  final String firstname;
-  final String lastname;
-  final String birthday;
+  String firstname;
+  String lastname;
+  String birthday;
   final String email;
-  final String phone;
+  String phone;
   final String creationDate;
   final String message;
 
