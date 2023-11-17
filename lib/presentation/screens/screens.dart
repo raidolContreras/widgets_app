@@ -11,3 +11,4 @@ export 'register/register_screen.dart';
 export 'register/send_register_screen.dart';
 export 'profile/profile_screen.dart';
 export 'profile/update_data_screen.dart';
+export 'search/search_screen.dart';

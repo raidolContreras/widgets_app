@@ -94,5 +94,11 @@ final appRouter = GoRouter(
       name: ProfileScreen.name,
       builder: (context, state) => const ProfileScreen(),
     ),
+
+    GoRoute(
+      path: '/Search',
+      name: SearchScreen.name,
+      builder: (context, state) => const SearchScreen(),
+    ),
   ],
 );
