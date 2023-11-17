@@ -33,10 +33,6 @@ class SearchScreen extends StatelessWidget {
             Expanded(
               child: ListView(
                 children: [
-                  // Elementos de la lista como ListTile
-                  buildResultItem('Resultado 1'),
-                  buildResultItem('Resultado 2'),
-                  // Agrega más elementos de la lista según sea necesario
                 ],
               ),
             ),
