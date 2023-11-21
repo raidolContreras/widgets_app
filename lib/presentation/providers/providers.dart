@@ -6,3 +6,5 @@ export 'reglament/reglament_provider.dart';
 export 'reglament/reglament_repository_provider.dart';
 export 'update_user/update_user_provider.dart';
 export 'update_user/update_user_repository_provider.dart';
+export 'search/search_providers.dart';
+export 'search/search_repository_provider.dart';

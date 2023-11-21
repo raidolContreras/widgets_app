@@ -1,12 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:in_library/presentation/providers/providers.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends ConsumerStatefulWidget {
   static const name = 'search_screen';
 
   const SearchScreen({super.key, });
 
   @override
+  ConsumerState<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends ConsumerState<SearchScreen> {
+  
+  @override
+  void initState() {
+    super.initState();
+    ref.read(seacherResultsProvider.notifier).searchResults;
+  }
+
+  @override
   Widget build(BuildContext context) {
+    int total = ref.watch(seacherResultsProvider).length;
     return Scaffold(
       appBar: AppBar(
       ),
@@ -25,15 +41,23 @@ class SearchScreen extends StatelessWidget {
                 ),
               ),
               onChanged: (query) {
-                // Implementa la lógica de búsqueda aquí
+                ref.read(seacherResultsProvider.notifier).searchResultsByQuery(query);
               },
             ),
             const SizedBox(height: 16),
+            
+            Text('N° de resultados: $total'),
             // Resultados de búsqueda
             Expanded(
-              child: ListView(
-                children: [
-                ],
+              child: Scrollbar( // Agregamos Scrollbar aquí
+                child: ListView.separated(
+                  itemCount: ref.watch(seacherResultsProvider).length,
+                  separatorBuilder: (BuildContext context, int index) => const Divider(),
+                  itemBuilder: (context, index) {
+                    final searchResult = ref.watch(seacherResultsProvider)[index];
+                    return buildResultItem(searchResult.paragraph, searchResult.nameArticle, searchResult.cover, searchResult.nameTitle, searchResult.idArticle, searchResult.idTitle);
+                  },
+                ),
               ),
             ),
           ],
@@ -42,21 +66,47 @@ class SearchScreen extends StatelessWidget {
     );
   }
 
-  Widget buildResultItem(String resultText) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(12.0),
-        color: Colors.grey[200],
+  Widget buildResultItem(String paragraph, String article, String cover, String title, int idArticle, int idTitle) {
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
       ),
-      child: ListTile(
-        title: Text(
-          resultText,
-          style: const TextStyle(fontSize: 18),
-        ),
+      child: InkWell(
         onTap: () {
-          // Acción cuando se selecciona un resultado
+          context.push('/Article/$idArticle/$idTitle');
         },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ListTile(
+            title: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 100,
+                  child: ClipRRect(borderRadius: BorderRadius.circular(10), child: Image.network(cover)),
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          article,
+                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(paragraph)
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }

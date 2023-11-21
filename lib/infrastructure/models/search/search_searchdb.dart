@@ -22,7 +22,7 @@ class SearchSearchDB {
         nameArticle: json["nameArticle"],
         paragraph: json["paragraph"],
         cover: (json["cover"] != null) 
-          ? 'https://app-fiscal.inscripcionesccm.online/assets/images/covers/${json["idTitles"] }/${json["cover"]}'
+          ? 'https://app-fiscal.inscripcionesccm.online/assets/images/covers/${json["idTitle"] }/${json["cover"]}'
           : 'https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg',
     );
 
