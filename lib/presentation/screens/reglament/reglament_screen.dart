@@ -22,7 +22,8 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
     final localStorageRepository = ref.watch(loggedUserRepositoryProvider);
     return localStorageRepository.islogged(isarId);
   });
-  
+
+  bool isLoading = true;
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final PageController _pageController = PageController();
@@ -37,6 +38,11 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
     ref.read(reglamentsNotifierProvider.notifier).loadReglament(widget.reglamentId);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       showTutorial();
+    });
+    Future.delayed(const Duration(seconds: 1), () {
+      setState(() {
+        isLoading = false;
+      });
     });
   }
 
@@ -90,7 +96,13 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
     
     final isLogged = ref.watch(isLoggedUser(1));
 
-    return Scaffold(
+    return isLoading 
+      ? const Scaffold(
+        body:  Center(
+            child: CircularProgressIndicator(),
+          ),
+      ) 
+    : Scaffold(
       key: scaffoldKey,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),

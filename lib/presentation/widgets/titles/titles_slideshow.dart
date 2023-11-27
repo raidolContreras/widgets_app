@@ -49,11 +49,27 @@ class TitlesSlideshow extends StatelessWidget {
   }
 }
 
-class _Slide extends StatelessWidget {
+class _Slide extends StatefulWidget {
   final Titles title;
 
   const _Slide({required this.title});
 
+  @override
+  State<_Slide> createState() => _SlideState();
+}
+
+class _SlideState extends State<_Slide> {
+  bool isLoading = true;
+  @override
+  void initState() {
+    super.initState();
+    
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -68,7 +84,7 @@ class _Slide extends StatelessWidget {
       ]
     );
     return GestureDetector(
-      onTap: () => context.push('/Reglament/${title.idTitles}'),
+      onTap: () => context.push('/Reglament/${widget.title.idTitles}'),
       child: Padding(
         padding: const EdgeInsets.only(bottom: 20),
         child: Column(
@@ -77,23 +93,28 @@ class _Slide extends StatelessWidget {
               decoration: decoration,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(25),
-                child: Image.network(
-                  title.coverName,
-                  fit: BoxFit.cover,
-                  loadingBuilder: (context, child, loadingProgress) {
-                    if(loadingProgress != null){
-                      return const DecoratedBox(
-                        decoration: BoxDecoration(color: Colors.black12),
-                      );
-                    }
-                    return FadeIn(child: child);
-                  },
+                child: SizedBox(
+                  height: 300,
+                  child: Image.network(
+                    isLoading 
+                    ? 'https://testcub1.s3.amazonaws.com/static/img/searching.gif'
+                    : widget.title.coverName,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if(loadingProgress != null){
+                        return const DecoratedBox(
+                          decoration: BoxDecoration(color: Colors.black12),
+                        );
+                      }
+                      return FadeIn(child: child);
+                    },
+                  ),
                 )
               )
             ),
             const SizedBox(height: 20,),
             Text(
-              title.nameTitle, 
+              widget.title.nameTitle, 
               maxLines: 2, 
               overflow: TextOverflow.ellipsis,
               style: TextStyle(

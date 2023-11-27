@@ -110,5 +110,11 @@ final appRouter = GoRouter(
         return ArticleScreen(idArticle: idArticle);
       },
     ),
+
+    GoRoute(
+      path: '/Favorites',
+      name: FavoritesScreen.name,
+      builder: (context, state) => const FavoritesScreen(),
+    ),
   ],
 );
