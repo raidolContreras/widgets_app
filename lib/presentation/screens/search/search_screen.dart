@@ -55,7 +55,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   separatorBuilder: (BuildContext context, int index) => const Divider(),
                   itemBuilder: (context, index) {
                     final searchResult = ref.watch(seacherResultsProvider)[index];
-                    return buildResultItem(searchResult.paragraph, searchResult.nameArticle, searchResult.cover, searchResult.nameTitle, searchResult.idArticle, searchResult.idTitle);
+                    return buildResultItem(searchResult.paragraph, searchResult.nameArticle, searchResult.cover, searchResult.nameTitle, searchResult.idArticle);
                   },
                 ),
               ),
@@ -66,7 +66,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     );
   }
 
-  Widget buildResultItem(String paragraph, String article, String cover, String title, int idArticle, int idTitle) {
+  Widget buildResultItem(String paragraph, String article, String cover, String title, int idArticle) {
     return Card(
       elevation: 5,
       shape: RoundedRectangleBorder(
@@ -74,7 +74,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       ),
       child: InkWell(
         onTap: () {
-          context.push('/Article/$idArticle/$idTitle');
+          context.push('/Article/$idArticle');
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),

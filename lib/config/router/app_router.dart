@@ -100,5 +100,15 @@ final appRouter = GoRouter(
       name: SearchScreen.name,
       builder: (context, state) => const SearchScreen(),
     ),
+
+    GoRoute(
+      path: '/Article/:idArticle',
+      name: ArticleScreen.name,
+      builder: (context, state) {
+        
+        final idArticle = state.pathParameters['idArticle'] ?? 'sin-email';
+        return ArticleScreen(idArticle: idArticle);
+      },
+    ),
   ],
 );
