@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_library/domain/entities/article.dart';
 import 'package:in_library/presentation/providers/providers.dart';
-import 'package:in_library/presentation/widgets/side_menu.dart';
-import 'package:in_library/presentation/widgets/widgets.dart';
 
 class ArticleScreen extends ConsumerStatefulWidget {
   static const name = 'article screen';
