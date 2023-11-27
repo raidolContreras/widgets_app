@@ -1,15 +1,15 @@
-class ArticleArticleDb {
-    final String idArticle;
+class ArticlesDb {
+    final int idArticle;
     final String nameArticle;
     final List<Paragraph> paragraphs;
 
-    ArticleArticleDb({
+    ArticlesDb({
         required this.idArticle,
         required this.nameArticle,
         required this.paragraphs,
     });
 
-    factory ArticleArticleDb.fromJson(Map<String, dynamic> json) => ArticleArticleDb(
+    factory ArticlesDb.fromJson(Map<String, dynamic> json) => ArticlesDb(
         idArticle: json["idArticle"],
         nameArticle: json["nameArticle"],
         paragraphs: List<Paragraph>.from(json["paragraphs"].map((x) => Paragraph.fromJson(x))),
@@ -23,7 +23,7 @@ class ArticleArticleDb {
 }
 
 class Paragraph {
-    final dynamic idParagraph;
+    final int idParagraph;
     final dynamic paragraph;
 
     Paragraph({

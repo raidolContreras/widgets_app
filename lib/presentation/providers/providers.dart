@@ -8,3 +8,5 @@ export 'update_user/update_user_provider.dart';
 export 'update_user/update_user_repository_provider.dart';
 export 'search/search_providers.dart';
 export 'search/search_repository_provider.dart';
+export 'article/article_provider.dart';
+export 'article/article_repository_provider.dart';

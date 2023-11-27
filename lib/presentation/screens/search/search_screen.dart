@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:in_library/presentation/providers/providers.dart';
+import 'package:in_library/presentation/widgets/side_menu.dart';
+import 'package:in_library/presentation/widgets/widgets.dart';
 
 class SearchScreen extends ConsumerStatefulWidget {
   static const name = 'search_screen';
@@ -22,10 +24,25 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    final scaffoldKey = GlobalKey<ScaffoldState>();
     int total = ref.watch(seacherResultsProvider).length;
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Busqueda'),
+          centerTitle: true,
+          actions: [
+            Builder(
+                builder: (context) => IconButton(
+                      icon: const Icon(Icons.sort),
+                      onPressed: () => Scaffold.of(context).openEndDrawer(),
+                      tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+                    ),
+              ),
+          ],
       ),
+        bottomNavigationBar: const CustomBottonNavigationBar( currentIndex: 1 ),
+        endDrawer: SideMenu(scaffoldKey: scaffoldKey),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

@@ -9,7 +9,7 @@ class ArticledbDatasource extends ArticleDatasource {
     ));
     
   @override
-  Future<Article> loadArticle(int idArticle) async {
+  Future<Article> loadArticle(String idArticle) async {
     
     try {
       final response = await dio.get('?searchArticle=$idArticle');

@@ -1,5 +1,5 @@
 class Article {
-  String idArticle;
+  int idArticle;
   String nameArticle;
   List<Paragraph> paragraphs;
 
@@ -24,7 +24,7 @@ class Article {
 }
 
 class Paragraph {
-  String? idParagraph;
+  int? idParagraph;
   String? paragraph;
 
   Paragraph({

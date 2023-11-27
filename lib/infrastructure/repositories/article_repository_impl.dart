@@ -6,10 +6,10 @@ class ArticleRepositoryImpl extends ArticleRepository{
   
   final ArticleDatasource datasource;
 
-  ArticleRepositoryImpl({required this.datasource});
+  ArticleRepositoryImpl(this.datasource);
 
   @override
-  Future<Article> loadArticle(int idArticle) {
+  Future<Article> loadArticle(String idArticle) {
     
     return datasource.loadArticle(idArticle);
     
