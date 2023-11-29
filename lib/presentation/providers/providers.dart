@@ -10,3 +10,5 @@ export 'search/search_providers.dart';
 export 'search/search_repository_provider.dart';
 export 'article/article_provider.dart';
 export 'article/article_repository_provider.dart';
+export 'favorites/favorites_provider.dart';
+export 'favorites/favorites_repository_provider.dart';

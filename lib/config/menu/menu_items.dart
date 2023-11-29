@@ -57,5 +57,12 @@ const appMenuItems = <MenuItem>[
     link: '/Profile',
     icon: Icons.login_outlined
   ),
+
+  MenuItem(
+    title: 'Favoritos',
+    subTitle: 'Tus articulos favoritos',
+    link: '/Favorites',
+    icon: Icons.star_border_outlined
+  ),
   
 ];
