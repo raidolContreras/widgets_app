@@ -1,32 +1,39 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '/config/theme/app_theme.dart';
-
 
 final colorListProvider = Provider((ref) => colorList);
 
-// Un bool
-final isDarkModeProvider = StateProvider((ref) => false);
+final themeNotifierProvider = StateNotifierProvider<ThemeNotifier, AppTheme>((ref) {
+  return ThemeNotifier();
+});
 
-// Un entero
-final selectedColorProvider = StateProvider((ref) => 0);
-
-// Un objeto de tipo Apptheme (custom)
-final themeNotifierProvider = StateNotifierProvider<ThemeNotifier, AppTheme>(
-  (ref) => ThemeNotifier(),
-);
-
-// Controller o Notifier
 class ThemeNotifier extends StateNotifier<AppTheme> {
-
-  // State = Estado = New AppTheme
-  ThemeNotifier(): super(AppTheme());
-
-  void toggleDarkMode(){
-    state = state.copyWith( isDarkmode: !state.isDarkmode );
+  ThemeNotifier() : super(AppTheme()) {
+    _loadThemeSettings();
   }
 
-  void changeColorIndex( int colorIndex ) {
-    state = state.copyWith( selectedColor: colorIndex);
+  Future<void> _loadThemeSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedThemeIndex = prefs.getInt('themeIndex') ?? 0;
+    final savedDarkMode = prefs.getBool('darkMode') ?? false;
+
+    state = state.copyWith(selectedColor: savedThemeIndex, isDarkmode: savedDarkMode);
   }
 
+  Future<void> _saveThemeSettings() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setInt('themeIndex', state.selectedColor);
+    prefs.setBool('darkMode', state.isDarkmode);
+  }
+
+  void toggleDarkMode() {
+    state = state.copyWith(isDarkmode: !state.isDarkmode);
+    _saveThemeSettings();
+  }
+
+  void changeColorIndex(int colorIndex) {
+    state = state.copyWith(selectedColor: colorIndex);
+    _saveThemeSettings();
+  }
 }
