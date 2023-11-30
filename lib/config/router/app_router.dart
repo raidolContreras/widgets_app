@@ -112,9 +112,14 @@ final appRouter = GoRouter(
     ),
 
     GoRoute(
-      path: '/Favorites',
+      path: '/Favorites/:userId',
       name: FavoritesScreen.name,
-      builder: (context, state) => const FavoritesScreen(),
+      builder: (context, state) {
+        
+        final String userId = state.pathParameters['userId'] ?? '';
+        return FavoritesScreen(userId: userId);
+
+      },
     ),
   ],
 );

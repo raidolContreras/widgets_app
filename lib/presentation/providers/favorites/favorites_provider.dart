@@ -11,7 +11,7 @@ final allFavoritesProvider = StateNotifierProvider<FavoritesNotifier, List<Favor
   );
 });
 
-typedef FavoriteCallback = Future<List<Favorites>> Function(int userId);
+typedef FavoriteCallback = Future<List<Favorites>> Function(String userId);
 
 class FavoritesNotifier extends StateNotifier<List<Favorites>>{
 
@@ -21,10 +21,10 @@ class FavoritesNotifier extends StateNotifier<List<Favorites>>{
     required this.fetchMoreFavorites
   }): super([]);
   
-  Future<void> loadNextFavorite(int userId) async{
+  Future<void> loadNextFavorite(String userId) async{
     
     final List<Favorites> favorites = await fetchMoreFavorites(userId);
-
+    state = [];
     state = [...state, ...favorites];
 
   }

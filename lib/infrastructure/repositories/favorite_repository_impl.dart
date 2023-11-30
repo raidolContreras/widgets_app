@@ -10,7 +10,7 @@ class FavoriteRepositoryImpl extends FavoriteRepository{
     );
 
   @override
-  Future<List<Favorites>> loadfavorites(int userId) {
+  Future<List<Favorites>> loadfavorites(String userId) {
     return datasource.loadfavorites(userId);
   }
 

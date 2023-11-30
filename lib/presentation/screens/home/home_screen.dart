@@ -43,7 +43,6 @@ class _HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final firstMenuItem = appMenuItems.isNotEmpty ? appMenuItems.first : null;
-    final favoritesMenuItem =  appMenuItems[6];
 
     return Column(
       children: [
@@ -66,7 +65,6 @@ class _HomeView extends StatelessWidget {
         ),
         if (firstMenuItem != null)
           _CustomListTile(menuItem: firstMenuItem),
-          _CustomListTile(menuItem: favoritesMenuItem),
       ],
     );
   }

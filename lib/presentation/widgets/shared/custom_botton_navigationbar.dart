@@ -11,7 +11,7 @@ class CustomBottonNavigationBar extends StatelessWidget {
     // context.go(GoRouterState.of(context).uri.toString());
     switch(index) {
       case 0:
-        context.push('/');
+        context.go('/');
         break;
       case 1:
         context.push('/Search');

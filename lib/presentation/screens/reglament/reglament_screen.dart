@@ -36,9 +36,6 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
   void initState() {
     super.initState();
     ref.read(reglamentsNotifierProvider.notifier).loadReglament(widget.reglamentId);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      showTutorial();
-    });
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         isLoading = false;
@@ -46,48 +43,6 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
     });
   }
 
-  void showTutorial() {
-    OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        top: 100.0,
-        left: 100.0,
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(10.0),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
-                  spreadRadius: 3,
-                  blurRadius: 7,
-                  offset: const Offset(0, 3),
-                ),
-              ],
-            ),
-            child: const Text(
-              'Desliza para navegar',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18.0,
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-
-    final context = scaffoldKey.currentContext;
-    if (context != null) {
-      Overlay.of(context).insert(overlayEntry);
-
-      Future.delayed(const Duration(seconds: 2)).then((_) {
-        overlayEntry.remove();
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {

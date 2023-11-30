@@ -54,6 +54,23 @@ class _SideMenuState extends ConsumerState<SideMenu> {
         Navigator.pop(context);
       },
     ));
+    if (isLogged.when(
+        data: (data) => data,
+        loading: () => false,
+        error: (error, stackTrace) => false,
+      )) {
+        menuItems.add(ListTile(
+          leading: const Icon(
+            Icons.star_border_outlined,
+          ),
+          title: Text(appMenuItems[6].title),
+          subtitle: Text(appMenuItems[6].subTitle),
+          onTap: () {
+            context.push('/Favorites/${userData[0].idUser}');
+            Navigator.pop(context);
+          },
+        ));
+      }
 
     menuItems.add(const Padding(
       padding: EdgeInsets.fromLTRB(28, 16, 28, 10),
@@ -66,14 +83,13 @@ class _SideMenuState extends ConsumerState<SideMenu> {
         error: (error, stackTrace) => false,
       )) {
 
-      // Nuevo botón para ir al perfil del usuario
       menuItems.add(ListTile(
         leading: const Icon(
           Icons.person,
         ),
         title: const Text('Ver perfil'),
         onTap: () {
-          context.push(appMenuItems[5].link); // Reemplaza con la ruta correcta para el perfil del usuario
+          context.push(appMenuItems[5].link);
           Navigator.pop(context);
         },
       ));

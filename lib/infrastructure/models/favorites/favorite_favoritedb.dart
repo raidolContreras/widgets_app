@@ -18,8 +18,8 @@ class FavoriteFavoriteDb {
         nameTitle: json["name_title"],
         idArticle: json["idArticle"],
         nameArticle: json["nameArticle"],
-        nameCover: (json["cover_name"] != null) 
-          ? 'https://app-fiscal.inscripcionesccm.online/assets/images/covers/${json["idTitles"] }/${json["cover_name"]}'
+        nameCover: (json["name_cover"] != null) 
+          ? 'https://app-fiscal.inscripcionesccm.online/assets/images/covers/${json["idTitle"] }/${json["name_cover"]}'
           : 'https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg',
     );
 

@@ -61,7 +61,7 @@ const appMenuItems = <MenuItem>[
   MenuItem(
     title: 'Favoritos',
     subTitle: 'Tus articulos favoritos',
-    link: '/Favorites',
+    link: '/Favorites/:userId',
     icon: Icons.star_border_outlined
   ),
   

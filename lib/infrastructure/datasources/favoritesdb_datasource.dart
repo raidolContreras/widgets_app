@@ -11,7 +11,7 @@ class FavoritesbdDatasource extends FavoriteDatasource{
     ));
     
       @override
-      Future<List<Favorites>> loadfavorites(int userId) async{
+      Future<List<Favorites>> loadfavorites(String userId) async{
 
     final response = await dio.get('?listArticle=$userId');
     
