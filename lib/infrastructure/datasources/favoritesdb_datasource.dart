@@ -1,7 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:in_library/domain/datasources/favorite_datasource.dart';
+import 'package:in_library/domain/entities/add_favorites.dart';
 import 'package:in_library/domain/entities/favorites.dart';
+import 'package:in_library/infrastructure/mappers/add_favorites_mapper.dart';
 import 'package:in_library/infrastructure/mappers/favorite_mapper.dart';
+import 'package:in_library/infrastructure/models/add_favorites/add_favoritesdb_response.dart';
 import 'package:in_library/infrastructure/models/favorites/favoritedb_response.dart';
 
 class FavoritesbdDatasource extends FavoriteDatasource{
@@ -10,8 +13,8 @@ class FavoritesbdDatasource extends FavoriteDatasource{
       baseUrl: 'https://app-fiscal.inscripcionesccm.online/api-fiscal/api.php',
     ));
     
-      @override
-      Future<List<Favorites>> loadfavorites(String userId) async{
+    @override
+    Future<List<Favorites>> loadfavorites(String userId) async{
 
     final response = await dio.get('?listArticle=$userId');
     
@@ -22,6 +25,19 @@ class FavoritesbdDatasource extends FavoriteDatasource{
     ).toList();
 
     return favorites;
+
+  }
+
+  @override
+  Future<AddFavorites> toogleFavorites(String idArticle, String userId) async {
+
+    final response = await dio.get('?article=$idArticle&user=$userId');
+
+    final addFavoritesDBResponse = AddFavoriteDbResponse.fromJson(response.data);
+
+    final AddFavorites addFavorites = AddFavoritesMapper.toogleFavoritesDBEntity(addFavoritesDBResponse);
+
+    return addFavorites;
 
   }
 

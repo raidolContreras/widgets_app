@@ -51,6 +51,8 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
     
     final isLogged = ref.watch(isLoggedUser(1));
 
+    final userData = ref.watch(userDataProvider).values.toList();
+
     return isLoading 
       ? const Scaffold(
         body:  Center(
@@ -119,7 +121,7 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
                       return PortrateWidget(colors: colors, reglament: reglament);
                     } else {
                       final chapter = reglament.chapters[index - 1];
-                      return ChapterWidget(chapter: chapter, colors: colors, hashCode: hashCode, isLogged: isLogged);
+                      return ChapterWidget(chapter: chapter, colors: colors, hashCode: hashCode, isLogged: isLogged, user:userData);
                     }
                   },
                 ),

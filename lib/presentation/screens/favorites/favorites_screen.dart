@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -58,12 +59,16 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
               ? _buildLoadingIndicator()
               : favorites.isEmpty
                   ? _buildEmptyFavoritesMessage()
-                  : Wrap(
-                      spacing: 8.0,
-                      runSpacing: 8.0,
-                      children: favorites.map((favorite) {
-                        return _buildFavoriteItem(favorite);
-                      }).toList(),
+                  : ListView(
+                      children: [
+                        Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children: favorites.map((favorite) {
+                            return _buildFavoriteItem(favorite);
+                          }).toList(),
+                        ),
+                      ],
                     ),
         ),
       ),
@@ -71,58 +76,60 @@ class _FavoritesScreenState extends ConsumerState<FavoritesScreen> {
   }
 
   Widget _buildFavoriteItem(Favorites favorite) {
-    return Container(
-      width: MediaQuery.of(context).size.width / 3 - 12,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey[300]!,
-            spreadRadius: 2,
-            blurRadius: 8,
-            offset: const Offset(0, 3),
-          ),
-        ],
-      ),
-      child: GestureDetector(
-        onTap: () => context.push('/Article/${favorite.idArticle}'),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: 100,
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
-                image: DecorationImage(
-                  image: NetworkImage(favorite.nameCover),
-                  fit: BoxFit.cover,
+    final colors = Theme.of(context).colorScheme;
+    return FadeInDown(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width / 3 - 12,
+        child: GestureDetector(
+          onTap: () => context.push('/Article/${favorite.idArticle}'),
+          child: Container(
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: colors.error,  // Color del borde
+                width: 1,            // Ancho del borde
+              ),
+              borderRadius: BorderRadius.circular(10),  // Radio del borde
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: 100,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(top: Radius.circular(10)),
+                    image: DecorationImage(
+                      image: NetworkImage(favorite.nameCover),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    favorite.nameTitle,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        favorite.nameTitle,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        favorite.nameArticle,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(
-                    favorite.nameArticle,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.grey[600],
-                    ),
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          )
+    
         ),
       ),
     );
