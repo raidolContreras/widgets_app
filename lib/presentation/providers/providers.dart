@@ -14,4 +14,3 @@ export 'favorites/favorites_provider.dart';
 export 'favorites/favorites_repository_provider.dart';
 export 'add_favorites/add_favorites_provider.dart';
 export 'add_favorites/add_favorites_repository_provider.dart';
-export 'add_favorites/is_favorite_provider.dart';
