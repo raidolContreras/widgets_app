@@ -40,6 +40,17 @@ class FavoritesbdDatasource extends FavoriteDatasource{
     return addFavorites;
 
   }
+  
+  @override
+  Future<IsFavorites> isFavorite(String idArticle, String userId) async {
+    
+    final response = await dio.get('?ArticleAdd=$idArticle&UserAdd=$userId');
 
+    final searchFavoriteDBResponse = IsFavoriteDbResponse.fromJson(response.data);
+
+    final IsFavorites searchFavorite = IsFavoritesMapper.isFavoritesDBEntity(searchFavoriteDBResponse);
+
+    return searchFavorite;
+  }
 
 }

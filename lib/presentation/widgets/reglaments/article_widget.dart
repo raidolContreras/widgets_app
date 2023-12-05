@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_library/domain/entities/reglaments.dart';
-import 'package:in_library/domain/entities/select_user.dart';
-import 'package:in_library/presentation/providers/add_favorites/add_favorites_provider.dart';
+import 'package:in_library/presentation/widgets/reglaments/is_favorite_widget.dart';
 import 'package:in_library/presentation/widgets/reglaments/reglaments.dart';
 
 class ArticleWidget extends ConsumerStatefulWidget {
@@ -12,7 +11,7 @@ class ArticleWidget extends ConsumerStatefulWidget {
     required this.colors,
     required this.isLogged,
     required this.article,
-    this.user
+    this.userId
   });
 
   // ignore: invalid_override_of_non_virtual_member, hash_and_equals, annotate_overrides
@@ -20,7 +19,7 @@ class ArticleWidget extends ConsumerStatefulWidget {
   final Article article;
   final ColorScheme colors;
   final AsyncValue<bool> isLogged;
-  final List<SelectUser>? user;
+  final String? userId;
 
   @override
   ConsumerState<ArticleWidget> createState() => _ArticleWidgetState();
@@ -57,13 +56,7 @@ class _ArticleWidgetState extends ConsumerState<ArticleWidget> {
                   loading: () => false,
                   error: (error, stackTrace) => false,
                 )
-                ? IconButton(
-                  onPressed: () {
-                    ref.read(toggleFavorites.notifier).fetchToggleFavorites('${widget.article.idArticle}', '${widget.user![0].idUser}');
-                  }, 
-                  icon: const Icon(Icons.star_border_outlined
-                  )
-                )
+                ? IsFavorite(idArticle: '${widget.article.idArticle}', userId: widget.userId!)
                 : const SizedBox(height: 0,),
             ],
           ),

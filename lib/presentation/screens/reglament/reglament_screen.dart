@@ -36,6 +36,8 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
   void initState() {
     super.initState();
     ref.read(reglamentsNotifierProvider.notifier).loadReglament(widget.reglamentId);
+    
+    ref.read(userDataProvider.notifier).loadDataUser();
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         isLoading = false;
@@ -43,15 +45,12 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
     final Reglament reglament = ref.watch(reglamentsNotifierProvider);
     final colors = Theme.of(context).colorScheme;
     
     final isLogged = ref.watch(isLoggedUser(1));
-
-    final userData = ref.watch(userDataProvider).values.toList();
 
     return isLoading 
       ? const Scaffold(
@@ -121,7 +120,10 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
                       return PortrateWidget(colors: colors, reglament: reglament);
                     } else {
                       final chapter = reglament.chapters[index - 1];
-                      return ChapterWidget(chapter: chapter, colors: colors, hashCode: hashCode, isLogged: isLogged, user:userData);
+                      
+    
+                      final userData = ref.watch(userDataProvider).values.toList();
+                      return ChapterWidget(chapter: chapter, colors: colors, hashCode: hashCode, isLogged: isLogged, userId:'${userData[0].idUser}');
                     }
                   },
                 ),

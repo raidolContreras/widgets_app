@@ -4,3 +4,7 @@ import 'package:in_library/infrastructure/models/add_favorites/add_favoritesdb_r
 class AddFavoritesMapper {
   static AddFavorites toogleFavoritesDBEntity(AddFavoriteDbResponse toogleResult) => AddFavorites(message: toogleResult.message);
 }
+
+class IsFavoritesMapper {
+  static IsFavorites isFavoritesDBEntity(IsFavoriteDbResponse favoriteResult) => IsFavorites(message: favoriteResult.message);
+}

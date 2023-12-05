@@ -32,8 +32,8 @@ class AddFavoritesNotifier extends StateNotifier<Map<String, AddFavorites>>{
     final toogleFavorite = await fetchToggleFavorites(idArticle, userId);
 
     state = {
-      'idArticle': toogleFavorite, // Asigna el resultado del login al email
-      'userId': toogleFavorite, // Asigna el resultado del login a la contraseña
+      'idArticle': toogleFavorite,
+      'userId': toogleFavorite,
     };
 
   }

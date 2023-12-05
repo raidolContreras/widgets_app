@@ -7,4 +7,6 @@ abstract class FavoriteDatasource {
 
   Future<AddFavorites> toogleFavorites(String idArticle,String userId);
 
+  Future<IsFavorites> isFavorite(String idArticle, String userId);
+
 }

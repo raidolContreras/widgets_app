@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_library/domain/entities/reglaments.dart';
-import 'package:in_library/domain/entities/select_user.dart';
 
 import 'reglaments.dart';
 class ChapterWidget extends StatelessWidget {
@@ -11,7 +10,7 @@ class ChapterWidget extends StatelessWidget {
     required this.colors,
     required this.hashCode,
     required this.isLogged,
-    this.user
+    this.userId,
   });
 
   final Chapter chapter;
@@ -19,7 +18,7 @@ class ChapterWidget extends StatelessWidget {
     // ignore: invalid_override_of_non_virtual_member, hash_and_equals, annotate_overrides
   final int hashCode;
   final AsyncValue<bool> isLogged;
-  final List<SelectUser>? user;
+  final String? userId;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +61,7 @@ class ChapterWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 8.0),
                     ...section.articles.map((article) {
-                      return ArticleWidget(hashCode: hashCode, colors: colors, isLogged: isLogged, article: article, user: user,);
+                      return ArticleWidget(hashCode: hashCode, colors: colors, isLogged: isLogged, article: article, userId: userId,);
                     }).toList(),
                   ],
                 );

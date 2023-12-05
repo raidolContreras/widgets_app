@@ -20,5 +20,10 @@ class FavoriteRepositoryImpl extends FavoriteRepository{
   Future<AddFavorites> toogleFavorites(String idArticle, String userId) {
     return datasource.toogleFavorites(idArticle, userId);
   }
+  
+  @override
+  Future<IsFavorites> isFavorite(String idArticle, String userId) {
+    return datasource.isFavorite(idArticle, userId);
+  }
 
 }
