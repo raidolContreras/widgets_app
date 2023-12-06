@@ -121,9 +121,12 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
                     } else {
                       final chapter = reglament.chapters[index - 1];
                       
-    
                       final userData = ref.watch(userDataProvider).values.toList();
-                      return ChapterWidget(chapter: chapter, colors: colors, hashCode: hashCode, isLogged: isLogged, userId:'${userData[0].idUser}');
+                      if(userData.isEmpty){
+                        return ChapterWidget(chapter: chapter, colors: colors, hashCode: hashCode, isLogged: isLogged);
+                      }else {
+                        return ChapterWidget(chapter: chapter, colors: colors, hashCode: hashCode, isLogged: isLogged, userId:'${userData[0].idUser}');
+                      }
                     }
                   },
                 ),
