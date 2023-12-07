@@ -88,6 +88,8 @@ class _SlideState extends State<_Slide> {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 20),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             DecoratedBox(
               decoration: decoration,

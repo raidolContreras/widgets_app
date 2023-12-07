@@ -17,9 +17,9 @@ class PortrateWidget extends StatelessWidget {
         color: colors.background,
         borderRadius: BorderRadius.circular(20),
       ),
-      margin: const EdgeInsets.all(15.0),
+      margin: const EdgeInsets.all(27.0),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(15),
         child: Hero(
           tag: 'cover_image',
           child: Image.network(
