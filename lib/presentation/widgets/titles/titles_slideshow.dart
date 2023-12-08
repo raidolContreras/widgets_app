@@ -18,6 +18,8 @@ class TitlesSlideshow extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 35),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(
             height: 400,

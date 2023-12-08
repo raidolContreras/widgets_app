@@ -52,7 +52,10 @@ class ReglamentsScreenState extends ConsumerState<ReglamentsScreen> {
             (context, index) {
               return 
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    const SizedBox(height: 150,),
                     TitlesSlideshow(titles: allTitles)
                   ],
                 );

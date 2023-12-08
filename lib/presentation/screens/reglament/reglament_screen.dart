@@ -67,8 +67,8 @@ class _ReglamentScreenState extends ConsumerState<ReglamentScreen> {
             reglament.nameTitle,
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              fontSize: 24.0,
-              letterSpacing: 1.2,
+              fontSize: 20.0,
+              letterSpacing: 0.8,
               color: colors.onBackground,
             ),
           ),

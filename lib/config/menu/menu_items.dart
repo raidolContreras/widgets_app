@@ -55,7 +55,7 @@ const appMenuItems = <MenuItem>[
     title: 'Mi Perfil',
     subTitle: '',
     link: '/Profile',
-    icon: Icons.login_outlined
+    icon: Icons.person_2
   ),
 
   MenuItem(

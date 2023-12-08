@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -18,6 +19,12 @@ class SideMenu extends ConsumerStatefulWidget {
 }
 
 class _SideMenuState extends ConsumerState<SideMenu> {
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    ref.read(userDataProvider.notifier).loadDataUser();
+  }
   
   final isLoggedUser = FutureProvider.family.autoDispose((ref, int isarId) {
     final localStorageRepository = ref.watch(loggedUserRepositoryProvider);
@@ -27,7 +34,6 @@ class _SideMenuState extends ConsumerState<SideMenu> {
   @override
   Widget build(BuildContext context) {
     
-    ref.read(userDataProvider.notifier).loadDataUser();
     final colors = Theme.of(context).colorScheme;
     final isLogged = ref.watch(isLoggedUser(1));
     
@@ -44,11 +50,14 @@ class _SideMenuState extends ConsumerState<SideMenu> {
     ));
 
     menuItems.add(ListTile(
-      leading: const Icon(
-        Icons.book_outlined,
+      leading: FadeInLeft(
+        duration: const Duration(milliseconds: 500),
+        child: const Icon(
+          Icons.book_outlined,
+        ),
       ),
-      title: Text(appMenuItems[0].title),
-      subtitle: Text(appMenuItems[0].subTitle),
+      title: FadeInRight(child: Text(appMenuItems[0].title)),
+      subtitle: FadeInRight(child: Text(appMenuItems[0].subTitle)),
       onTap: () {
         context.push(appMenuItems[0].link);
         Navigator.pop(context);
@@ -60,11 +69,14 @@ class _SideMenuState extends ConsumerState<SideMenu> {
         error: (error, stackTrace) => false,
       )) {
         menuItems.add(ListTile(
-          leading: const Icon(
-            Icons.star_border_outlined,
+          leading: FadeInLeft(
+        duration: const Duration(milliseconds: 500),
+            child: const Icon(
+              Icons.star_border_outlined,
+            ),
           ),
-          title: Text(appMenuItems[6].title),
-          subtitle: Text(appMenuItems[6].subTitle),
+          title: FadeInRight(child: Text(appMenuItems[6].title)),
+          subtitle: FadeInRight(child: Text(appMenuItems[6].subTitle)),
           onTap: () {
             context.push('/Favorites/${userData[0].idUser}');
             Navigator.pop(context);
@@ -84,21 +96,27 @@ class _SideMenuState extends ConsumerState<SideMenu> {
       )) {
 
       menuItems.add(ListTile(
-        leading: const Icon(
-          Icons.person,
+        leading: FadeInLeft(
+        duration: const Duration(milliseconds: 500),
+          child: const Icon(
+            Icons.person_outlined,
+          ),
         ),
-        title: const Text('Ver perfil'),
+        title: FadeInRight(child: const Text('Ver perfil')),
         onTap: () {
           context.push(appMenuItems[5].link);
           Navigator.pop(context);
         },
       ));
       menuItems.add(ListTile(
-        leading: Icon(
-          appMenuItems[4].icon,
+        leading: FadeInLeft(
+        duration: const Duration(milliseconds: 500),
+          child: Icon(
+            appMenuItems[4].icon,
+          ),
         ),
-        title: Text(appMenuItems[4].title),
-        subtitle: Text(appMenuItems[4].subTitle),
+        title: FadeInRight(child: Text(appMenuItems[4].title)),
+        subtitle: FadeInRight(child: Text(appMenuItems[4].subTitle)),
         onTap: () {
           context.push(appMenuItems[4].link);
           Navigator.pop(context);
@@ -111,10 +129,13 @@ class _SideMenuState extends ConsumerState<SideMenu> {
           child: ClipRRect(
             borderRadius: BorderRadiusDirectional.circular(20),
             child: ListTile(
-              leading: Icon(
-                appMenuItems[3].icon,
+              leading: FadeInLeft(
+        duration: const Duration(milliseconds: 500),
+                child: Icon(
+                  appMenuItems[3].icon,
+                ),
               ),
-              title: Text(appMenuItems[3].title),
+              title: FadeInRight(child: Text(appMenuItems[3].title)),
               onTap: () {
                 context.push(appMenuItems[3].link);
                 Navigator.pop(context);
@@ -157,41 +178,43 @@ class _DrawerHeader extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(7.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('InLibrary', style: TextStyle(color: colors.onPrimary, fontSize: 24, fontWeight: FontWeight.bold),),
+                    FadeInLeft(child: Text('InLibrary', style: TextStyle(color: colors.onPrimary, fontSize: 24, fontWeight: FontWeight.bold),)),
                     if (isLogged.when(
                         data: (data) => data,
                         loading: () => false,
                         error: (error, stackTrace) => false,
                       )) 
-                      Flexible(child: Text(user![0].firstname, style: TextStyle(color: colors.onPrimary, fontSize: 18),)),
+                      FadeInLeft(child: Text(user![0].firstname, style: TextStyle(color: colors.onPrimary, fontSize: 18),)),
                     if (isLogged.when(
                         data: (data) => data,
                         loading: () => false,
                         error: (error, stackTrace) => false,
                       )) 
-                      Flexible(child: Text(user![0].lastname, style: TextStyle(color: colors.onPrimary, fontSize: 18),)),
+                      FadeInLeft(child: Text(user![0].lastname, style: TextStyle(color: colors.onPrimary, fontSize: 18),)),
                     if (isLogged.when(
                         data: (data) => data,
                         loading: () => false,
                         error: (error, stackTrace) => false,
                       )) 
-                      Flexible(child: Text(user![0].email, style: TextStyle(color: colors.onPrimary, fontSize: 10),)),
+                      FadeInLeft(child: Text(user![0].email, style: TextStyle(color: colors.onPrimary, fontSize: 10),)),
                   ],
                 ),
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: colors.onPrimary,
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: IconButton(
-                onPressed: () {context.push(appMenuItems[1].link); Navigator.pop(context);}, 
-                icon: Icon( appMenuItems[1].icon , color: colors.primary, size: 30,),
+            Roulette(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: colors.onPrimary,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: IconButton(
+                  onPressed: () {context.push(appMenuItems[1].link); Navigator.pop(context);}, 
+                  icon: Icon( appMenuItems[1].icon , color: colors.primary, size: 30,),
+                ),
               ),
             ),
           ],

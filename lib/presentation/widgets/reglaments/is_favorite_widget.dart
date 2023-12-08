@@ -76,7 +76,7 @@ class IsFavoriteState extends ConsumerState<IsFavorite> {
           }
         });
       },
-      icon: ElasticInDown(child: favorite),
+      icon: FadeInRight(child: favorite),
     );
   }
 }
