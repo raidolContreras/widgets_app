@@ -35,7 +35,7 @@ class ThemeChangerScreen extends ConsumerWidget {
           )
         ],
         flexibleSpace: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [Colors.deepPurpleAccent, Colors.deepPurple],
               begin: Alignment.topLeft,
@@ -111,7 +111,7 @@ class _ThemeChangerView extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10.0,
                   ),
                   SizedBox(
