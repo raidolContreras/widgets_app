@@ -11,6 +11,7 @@ class ThemeChangerScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(themeNotifierProvider).isDarkmode;
+    final colors = Theme.of(context).colorScheme;
 
     return Scaffold(
       appBar: AppBar(
@@ -24,7 +25,7 @@ class ThemeChangerScreen extends ConsumerWidget {
                 isDarkMode
                     ? Icons.dark_mode_outlined
                     : Icons.light_mode_outlined,
-                color: Colors.white,
+                color: colors.onSurface,
               ),
               onPressed: () {
                 ref
@@ -35,9 +36,9 @@ class ThemeChangerScreen extends ConsumerWidget {
           )
         ],
         flexibleSpace: Container(
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             gradient: LinearGradient(
-              colors: [Colors.deepPurpleAccent, Colors.deepPurple],
+              colors: [colors.primary, colors.onPrimary],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),

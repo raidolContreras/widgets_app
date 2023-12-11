@@ -34,9 +34,7 @@ class _AppTutorialScreenState extends State<AppTutorialScreen> {
 
   @override
   void initState() {
-    
     super.initState();
-
     pageViewController.addListener(() {
       final page = pageViewController.page ?? 0;
       if  ( !endReached && page >= (slides.length - 1.5) ){
@@ -44,7 +42,6 @@ class _AppTutorialScreenState extends State<AppTutorialScreen> {
           endReached = true;
         });
       }
-      // print('${ pageViewController.page }');
     });
   }
 
