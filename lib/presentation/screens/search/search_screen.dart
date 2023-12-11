@@ -58,10 +58,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       bottomNavigationBar: const CustomBottonNavigationBar(currentIndex: 1),
       endDrawer: SideMenu(scaffoldKey: scaffoldKey),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.symmetric(horizontal: 35),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            const SizedBox(height: 16),
             TextField(
               controller: _searchController,
               decoration: InputDecoration(
@@ -73,7 +74,11 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
               ),
             ),
             const SizedBox(height: 16),
-            Text('N° de resultados: $total'),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text('N° de resultados: $total')
+            ),
+            const SizedBox(height: 16),
             Expanded(
               child: Scrollbar(
                 child: ListView.separated(
