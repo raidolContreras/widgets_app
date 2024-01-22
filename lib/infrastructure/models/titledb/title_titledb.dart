@@ -16,7 +16,7 @@ class TitleTilteDB {
         nameTitle: json["name_title"],
         idCover: (json["idCover"] != null) ? json["idCover"] : 0,
         coverName: (json["cover_name"] != null) 
-          ? 'https://app-fiscal.inscripcionesccm.online/assets/images/covers/${json["idTitles"] }/${json["cover_name"]}'
+          ? 'https://app-fiscal.hucco.com.mx/assets/images/covers/${json["idTitles"] }/${json["cover_name"]}'
           : 'https://upload.wikimedia.org/wikipedia/commons/b/b9/No_Cover.jpg',
     );
 

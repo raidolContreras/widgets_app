@@ -7,7 +7,7 @@ import 'package:in_library/infrastructure/models/search/searchdb_responce.dart';
 class SearchdbDatasource extends SearchDatasource{
   
     final dio = Dio(BaseOptions(
-      baseUrl: 'https://app-fiscal.inscripcionesccm.online/api-fiscal/api.php',
+      baseUrl: 'https://app-fiscal.hucco.com.mx/api-fiscal/api.php',
     ));
 
   @override

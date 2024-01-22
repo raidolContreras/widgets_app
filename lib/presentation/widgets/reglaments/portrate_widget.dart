@@ -25,7 +25,7 @@ class PortrateWidget extends StatelessWidget {
           child: Hero(
             tag: 'cover_image',
             child: Image.network(
-              'https://app-fiscal.inscripcionesccm.online/assets/images/covers/${reglament.idTitles}/${reglament.coverName}',
+              'https://app-fiscal.hucco.com.mx/assets/images/covers/${reglament.idTitles}/${reglament.coverName}',
               fit: BoxFit.cover,
             ),
           ),

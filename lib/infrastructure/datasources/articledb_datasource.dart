@@ -5,7 +5,7 @@ import 'package:in_library/domain/entities/article.dart';
 class ArticledbDatasource extends ArticleDatasource {
   
   final dio = Dio(BaseOptions(
-      baseUrl: 'https://app-fiscal.inscripcionesccm.online/api-fiscal/api.php',
+      baseUrl: 'https://app-fiscal.hucco.com.mx/api-fiscal/api.php',
     ));
     
   @override

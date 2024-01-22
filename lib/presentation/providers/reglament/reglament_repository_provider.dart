@@ -5,5 +5,5 @@ import 'package:in_library/infrastructure/repositories/reglament_repository_impl
 
 // Provider de solo lectura, es inmutable
 final reglamentRepositoryProvider = Provider((ref) {
-  return ReglamentRepositoryImpl(ReglamentsDbDatasource(baseUrl: 'https://app-fiscal.inscripcionesccm.online/'));
+  return ReglamentRepositoryImpl(ReglamentsDbDatasource(baseUrl: 'https://app-fiscal.hucco.com.mx/'));
 });

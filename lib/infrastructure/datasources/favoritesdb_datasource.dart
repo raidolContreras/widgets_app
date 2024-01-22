@@ -10,7 +10,7 @@ import 'package:in_library/infrastructure/models/favorites/favoritedb_response.d
 class FavoritesbdDatasource extends FavoriteDatasource{
 
     final dio = Dio(BaseOptions(
-      baseUrl: 'https://app-fiscal.inscripcionesccm.online/api-fiscal/api.php',
+      baseUrl: 'https://app-fiscal.hucco.com.mx/api-fiscal/api.php',
     ));
     
     @override
